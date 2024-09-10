@@ -1,0 +1,454 @@
+/* Style the navigation bar */
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 25px;
+}
+
+.navbar {
+    width: 100%;
+    background-color: white;
+    overflow: auto;
+    display: flex;
+    justify-content: space-between; /* Căn các phần tử thành hai bên */
+    align-items: center;
+}
+
+/* Container cho các liên kết */
+.navbar .links {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1; /* Cho phép phần tử này chiếm không gian còn lại */
+}
+
+/* Navbar links */
+.navbar a{
+    text-align: center;
+    padding: 12px 20px;
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    margin: 0 10px; /* Khoảng cách giữa các liên kết */
+}
+
+/* CSS cho icon và text "Tài Khoản" */
+.navbar .account-icon {
+    display: inline-flex; /* Căn chỉnh nội dung bên trong theo chiều ngang */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    padding: 12px 20px;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    margin: 0 10px;
+    text-decoration: none; /* Loại bỏ gạch chân nếu có */
+}
+
+/* CSS cho thẻ <p> bên trong icon */
+.navbar .account-icon p {
+    margin: 0;
+    padding-left: 5px; /* Khoảng cách giữa icon và chữ "Tài Khoản" */
+    font-size: 20px; /* Kích thước chữ */
+    color: black;
+}
+
+/* Navbar input và button container */
+.navbar .actions {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* Navbar input */
+.navbar input {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 30px;
+    width: 100px; /* Đặt độ rộng cố định cho input */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ */
+    transition: border-color 0.3s ease; /* Hiệu ứng chuyển đổi màu viền */
+}
+
+.navbar input:focus {
+    border-color: #04AA6D; /* Đổi màu viền khi focus */
+}
+
+/* Navbar button */
+.navbar button {
+    margin-left: 2px; /* Khoảng cách giữa input và button */
+    margin-right: 20px;
+    margin-top: 5px;
+    padding: 5px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    height: 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+}
+
+.navbar button:hover {
+    background-color: #032e4b; /* Đổi màu nền khi hover */
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Current/active navbar link */
+.active {
+    background-color: #3498db;
+}
+
+/* CSS cho container của icon "Tài Khoản" */
+.account-icon-container {
+    margin-right: 50px; /* Khoảng cách từ icon đến cạnh phải màn hình */
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* CSS cho icon và text "Tài Khoản" */
+.navbar .account-icon {
+    display: inline-flex; /* Căn chỉnh nội dung bên trong theo chiều ngang */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    padding: 12px 20px;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    text-decoration: none; /* Loại bỏ gạch chân nếu có */
+}
+
+/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+@media screen and (max-width: 500px) {
+    .navbar {
+        flex-direction: column; /* Đặt các phần tử thành cột */
+    }
+
+    .navbar .links {
+        margin-bottom: 10px; /* Khoảng cách giữa liên kết và các hành động */
+    }
+
+    .navbar .actions {
+        margin-top: 10px; /* Khoảng cách giữa các hành động */
+    }
+
+    .navbar a {
+        margin: 10px 0; /* Khoảng cách giữa các liên kết */
+    }
+}
+
+/* banner */
+/* .banner img {
+    width: 100%;
+    height: 300px;
+} */
+
+/* CSS cho banner */
+.banner {
+    position: relative;
+}
+
+.banner img {
+    width: 100%;
+    height: 300px;
+}
+
+/* CSS cho thanh tìm kiếm chồng lên banner */
+.search-container {
+    position: absolute;
+    top: 20px; /* Đặt thanh tìm kiếm ở dưới cùng, bạn có thể thay đổi vị trí theo ý muốn */
+    right: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: right;
+}
+
+.search-container input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+    width:200%; /* Đặt độ rộng cho input */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.7); /* Làm mờ thẻ input */
+    backdrop-filter: blur(5px); /* Làm mờ nền phía sau input */
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+.search-container input:focus {
+    background-color: rgba(255, 255, 255, 0.9); /* Làm sáng thẻ input khi focus */
+    backdrop-filter: blur(3px); /* Giảm độ mờ khi focus */
+    border-color: #3498db; /* Đổi màu viền khi focus */
+}
+
+.search-container button {
+    margin-left: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: #032e4b;
+}
+
+@media screen and (max-width: 500px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar .links {
+        margin-bottom: 10px;
+    }
+
+    .navbar .actions {
+        margin-top: 10px;
+    }
+
+    .navbar a {
+        margin: 10px 0;
+    }
+
+    .search-container {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .search-container input, .search-container button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* Logo */
+.navbar .logo {
+    margin-right: 20px; /* Khoảng cách giữa logo và các liên kết */
+}
+
+.navbar .logo img {
+    height: 40px; /* Điều chỉnh kích thước logo theo ý muốn */
+    vertical-align: middle; /* Căn chỉnh logo với các phần tử khác */
+}
+
+
+/* Container cho khung lưới sản phẩm */
+.product-grid {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); Tự động điền cột với độ rộng tối thiểu 250px */
+    grid-template-columns: repeat(3, 1fr); /* 3 cột, mỗi cột chiếm 1 phần */
+    gap: 20px; /* Khoảng cách giữa các sản phẩm */
+    padding: 20px;
+    background-color: #f5f5f5; /* Màu nền của khung lưới */
+}
+
+/* Mỗi sản phẩm trong lưới */
+.product-item {
+    background-color: white; /* Màu nền của sản phẩm */
+    border: 1px solid #ddd; /* Viền xung quanh sản phẩm */
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px; /* Bo góc sản phẩm */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Bóng đổ cho sản phẩm */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Hiệu ứng khi hover */
+}
+
+/* Hình ảnh sản phẩm */
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Bo góc cho hình ảnh */
+    margin-bottom: 15px;
+}
+
+/* Tên sản phẩm */
+.product-item h3 {
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+/* Giá sản phẩm */
+.product-item p {
+    font-size: 16px;
+    color: #3498db; /* Màu sắc cho giá sản phẩm */
+    font-weight: bold;
+}
+
+/* Hiệu ứng khi hover sản phẩm */
+.product-item:hover {
+    transform: scale(1.05); /* Phóng to sản phẩm khi hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Tăng bóng đổ khi hover */
+}
+
+/* CSS cho filter-container */
+.filter-container {
+    margin: 20px auto; /* Khoảng cách trên và dưới, căn giữa */
+    width: 80%; /* Đặt chiều rộng của filter-container */
+    max-width: 800px; /* Đặt chiều rộng tối đa */
+    padding: 10px; /* Padding bên trong */
+    background-color: #f9f9f9; /* Màu nền */
+    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng đổ */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+/* CSS cho select */
+.filter-container select {
+    font-size: 16px; /* Kích thước chữ */
+    padding: 10px; /* Padding */
+    border: 1px solid #ddd; /* Viền */
+    border-radius: 4px; /* Bo góc */
+    background-color: #fff; /* Màu nền */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bóng đổ */
+    cursor: pointer; /* Con trỏ khi hover */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển đổi */
+}
+
+.filter-container select:focus {
+    border-color: #3498db; /* Màu viền khi focus */
+    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2); /* Bóng đổ khi focus */
+}
+
+/* CSS cho option */
+.filter-container option {
+    padding: 10px; /* Padding cho các option */
+}
+
+
+
+/* ------------Login---------------- */
+.form {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form-create {
+    width: 40%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+legend {
+    color: black;
+    padding: 8px 15px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.input-user {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+label {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: black;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="text"],
+input[type="email"],
+input[type="date-time"],
+input[type="file"],
+select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+p {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+p a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 17px;
+    transition: color 0.3s;
+}
+
+p a:hover {
+    color: #2980b9;
+}
+
+.account-icon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.3s ease; /* Transition effect for color change */
+}
+
+.username {
+    color: #3498db;
+    transition: color 0.3s ease; /* Transition effect for color change */
+}
+
+.account-icon:hover .username {
+    color: #e74c3c; /* Change this color to whatever you prefer */
+}
+
+
+
+  

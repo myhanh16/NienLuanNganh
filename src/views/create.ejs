@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lí sự kiện</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <!-- Load an icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <div class="navbar">
+            <a href="/home" class="logo">
+                <img src="/img/logo.png" alt="Logo">
+            </a>
+            <div class="links">
+                <a class="" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                <a class="active" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên hệ</a>
+                <a href="#"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>
+                <a href="/login" class=""><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a>
+                <!-- <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i> -->
+            </div>
+            <div class="account-icon-container">
+                <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="form-create">
+        <form action="/login" method="post">
+            <fieldset>
+                <legend>Tạo sự kiện</legend>
+                <div class="input-user">
+                    <label>Tên sự kiện: </label>
+                    <input type="Email" name="name" required><br>
+                    <label>Thời gian bắt đầu: </label>
+                    <input type="datetime-local" name="start" required><br>
+                    <label>Thời gian kết thúc: </label>
+                    <input type="datetime-local" name="end" required><br>
+                    <label>Địa điểm: </label>
+                    <input type="text" name="location" required><br>
+                    <label for="file">Chọn hình:</label>
+                    <input type="file" id="file" name="Image_URL" accept="image/*"><br>
+                    <label>Chi tiết: </label>
+                    <input type="text" name="description" required><br>
+                    <label>Loại sự kiện: </label>
+                    <select id="event-type" name="ID_type">
+                        <option value="">Chọn loại sự kiện</option>
+                        <option value="1">Âm nhạc</option>
+                        <option value="2">Hoạt động nhóm</option>
+                        <option value="3">Chương trính trò chuyện</option>
+                    </select><br>
+                    <label>Giá vào cổng: </label>
+                    <input type="text" name="price" required><br>
+                    <input type="submit" name="submit" value="Tạo sự kiện">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

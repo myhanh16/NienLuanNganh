@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lí sự kiện</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <!-- Load an icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <div class="navbar">
+            <a href="/home" class="logo">
+                <img src="/img/logo.png" alt="Logo">
+            </a>
+            <div class="links">
+                <a class="" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                <a class="" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên hệ</a>
+                <a href="#"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>
+                <a href="/login" class=""><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                <a href="/register" class="active"><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a>
+            </div>
+            <div class="account-icon-container">
+                <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="form">
+        <form action="/register" method="post">
+            <fieldset>
+                <legend>Đăng Ký</legend>
+                <% if (error) { %>
+                    <p style="color: red; text-align:center"><%= error %></p>
+                <% } %>
+                <% if (no_error) { %>
+                    <p style="color: green; text-align:center"><%= no_error %></p>
+                <% } %>
+                <div class="input-user">
+                    <label>Email: </label>
+                    <input type="Email" name="email" required><br>
+                    <label>Mật khẩu: </label>
+                    <input type="password" name="password" required><br>
+                    <label>Họ tên người dùng: </label>
+                    <input type="text" name="username" required><br>
+                    <label>Số điện thoại: </label>
+                    <input type="text" name="phone" required>
+                    <input type="submit" name="submit" value="Đăng Ký">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

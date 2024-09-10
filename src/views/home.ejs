@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lí sự kiện</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <!-- Load an icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <div class="navbar">
+            <a href="/home" class="logo">
+                <img src="/img/logo.png" alt="Logo">
+            </a>
+            <div class="links">
+                <a class="active" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                <a class="" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
+                <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a>
+                <a href="#"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
+                <% if (session.user) { %>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+                <% } else { %>
+                    <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                    <a href="/register"><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a>
+                <% } %>
+            </div>
+            
+            <div class="account-icon-container">
+                <% if (session.user) { %>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username"><%= session.user.UserName %></p>
+                    </i>
+                <% } else { %>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username">Tài Khoản</p>
+                    </i>
+                <% } %>
+            </div>
+            
+        </div>
+    </header>
+
+    <div class="banner">
+        <img src="/img/banner.jpg" alt="Header Image">
+        <!-- Thanh tìm kiếm đặt chồng lên banner -->
+        <div class="search-container">
+            <input type="text" placeholder="Nhập sự kiện cần tìm" id="event">
+            <button><i class="fa fa-fw fa-search"></i></button>
+        </div>
+    </div>
+
+    <div class="filter-container">
+        <select id="event-type">
+            <option value="">Chọn loại sự kiện</option>
+            <option value="1">Âm nhạc</option>
+            <option value="2">Hoạt động nhóm</option>
+            <option value="3">Chương trính trò chuyện</option>
+        </select>
+    </div>
+
+    <div class="product-grid">
+        <% event.forEach(function(ev) { %>
+            <div class="product-item">
+                <img src="<%= ev.Image_URL %>" alt="Event Image">
+                <h3><%= ev.Name %></h3>
+                <p>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></p>
+                <p>Địa điểm: <%= ev.Location %></p>
+                <p>Giá vào cổng: <%= ev.Price %></p>
+                <p>Chi tiết: <%= ev.Description %></p>
+            </div>
+        <% }); %>
+
+        <div class="product-item">
+            <img src="/img/product2.jpg" alt="Product 2">
+            <h3>Tên sản phẩm 2</h3>
+            <p>Giá: 200,000đ</p>
+        </div>
+        <div class="product-item">
+            <img src="/img/product2.jpg" alt="Product 2">
+            <h3>Tên sản phẩm 3</h3>
+            <p>Giá: 200,000đ</p>
+        </div>
+        <div class="product-item">
+            <img src="/img/product2.jpg" alt="Product 2">
+            <h3>Tên sản phẩm 4</h3>
+            <p>Giá: 200,000đ</p>
+        </div>
+        <!-- Thêm các sản phẩm khác -->
+    </div>
+    
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
