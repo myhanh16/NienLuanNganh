@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {getHome, login, register, listevent, logout, create} = require('../controllers/homeController');
+const {getHome, login, register, logout, create} = require('../controllers/homeController');
 
 //Khai báo route
-router.get('/home', listevent);
+router.get('/home', getHome);
 
 
 // Route để hiển thị form đăng nhập
