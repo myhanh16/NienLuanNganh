@@ -34,7 +34,6 @@ CREATE TABLE event (
     Name VARCHAR(255) NOT NULL,
     Start_time DATETIME NOT NULL,
     End_time DATETIME NOT NULL,
-    Host VARCHAR(255) NOT NULL,
     Location VARCHAR(255),
     Description VARCHAR(255),
     Image_URL VARCHAR(255),

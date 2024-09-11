@@ -20,25 +20,40 @@
                 <a class="" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
                 <a class="active" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
                 <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
-                <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên hệ</a>
-                <a href="#"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>
-                <a href="/login" class=""><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
-                <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a>
-                <!-- <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i> -->
+                <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
+                <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a>
+                <a href="#"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
+                <% if (session.user) { %>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+                <% } else { %>
+                    <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                    <a href="/register"><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a>
+                <% } %>
             </div>
+            
             <div class="account-icon-container">
-                <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i>
+                <% if (session.user) { %>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username"><%= session.user.UserName %></p>
+                    </i>
+                <% } else { %>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username">Tài Khoản</p>
+                    </i>
+                <% } %>
             </div>
+            
         </div>
     </header>
 
     <div class="form-create">
-        <form action="/login" method="post">
+        <form action="/create" method="post">
             <fieldset>
                 <legend>Tạo sự kiện</legend>
                 <div class="input-user">
                     <label>Tên sự kiện: </label>
-                    <input type="Email" name="name" required><br>
+                    <input type="text" name="name" required><br>
                     <label>Thời gian bắt đầu: </label>
                     <input type="datetime-local" name="start" required><br>
                     <label>Thời gian kết thúc: </label>

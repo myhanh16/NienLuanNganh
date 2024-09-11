@@ -1,6 +1,6 @@
 const session = require('express-session');
 const con = require('../config/database');
-
+const file = '/img/';
 // Hàm hiển thị trang chính với dữ liệu sự kiện
 const getHome = (req, res) => {
   con.query(
@@ -115,13 +115,43 @@ const logout = (req, res) => {
 
 //Tạo sự kiện
 const create = (req, res) => {
-  if(!req.session.user){
-    res.render('login');
-  }
-  let {name, start, end, location, Image_URL, description, ID_type, price} = req.body;
+  // if (!req.session.user) {
+  //   return res.redirect('/login');
+  // }
+  // else {
+  //   const userEmail = req.session.user.Email;
+  //   let { name, start, end, location, description, Image_URL, ID_type, price } = req.body;
+
+  // Xử lý file upload
+   let { name, start, end, location, description, Image_URL, ID_type, price } = req.body;
+   console.log(Image_URL);
+   Image_URL = file.concat(Image_URL);
+  //  if (req.file) {
+  //    const fileImg = req.file.path; // Lấy đường dẫn đến file hình ảnh
+  //    console.log(req.file.path);
+      
+      
+  //   }
+
+    con.query(
+      'INSERT INTO `event`(`Name`, `Start_time`, `End_time`, `Location`, `Description`, `Image_URL`, `ID_type`, `status`, `Price`) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)',
+      [name, start, end, location, description, Image_URL, ID_type, price],
+      function(err, results) {
+        if (err) {
+          console.error('Error executing query:', err);
+          // console.log(req.body);
+          return res.status(500).send('An error occurred');
+        }
+        else {
+          res.send("Tao thanh cong")
+        }
+
+    } 
+  );
   
-  
-}
+
+};
+
 
 module.exports = {
   getHome,

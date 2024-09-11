@@ -28,6 +28,9 @@ router.get('/logout', logout);
 //       res.redirect('/home');
 //     });
 //   });
-router.get('/create',create);
+router.get('/create', (req, res) => {
+    res.render('create', { session: req.session });
+})
+router.post('/create', create );
 
 module.exports = router;
