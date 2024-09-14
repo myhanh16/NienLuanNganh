@@ -6,9 +6,9 @@
     <title>Quản lí sự kiện</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/main.css">
-    
 </head>
 <body>
+    
     <header class="header">
         <!-- Load an icon library -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,8 +25,8 @@
                       <i class="fa fa-fw fa-edit"></i>
                     </p>
                     <div class="dropdown-content">
-                      <a href="/create" class="active">Tạo Sự Kiện</a>
-                      <a href="/listevent">Danh Sách Sự Kiện</a>
+                      <a href="/create" class="">Tạo Sự Kiện</a>
+                      <a href="/listvent" class="active">Danh Sách Sự Kiện</a>
                     </div>
                   </div>
                 <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
@@ -64,41 +64,58 @@
         </div>
     </header>
 
-
-    <div class="form-create">
-        <form action="/create" method="post">
-            <fieldset>
-                <legend>Tạo sự kiện</legend>
-                
-                <div class="input-user">
-                    <label>Tên sự kiện: </label>
-                    <input type="text" name="name" required><br>
-                    <label>Thời gian bắt đầu: </label>
-                    <input type="datetime-local" name="start" required><br>
-                    <label>Thời gian kết thúc: </label>
-                    <input type="datetime-local" name="end" required><br>
-                    <label>Địa điểm: </label>
-                    <input type="text" name="location" required><br>
-                    <label for="file">Hình ảnh:</label>
-                    <input type="file" id="file" name="Image_URL" accept="image/*"><br>
-                    <label>Chi tiết: </label>
-                    <input type="text" name="description" required><br>
-                    <label>Loại sự kiện: </label>
-                    <select id="event-type" name="ID_type">
-                        <option value="">Chọn loại sự kiện</option>
-                        <option value="1">Âm nhạc</option>
-                        <option value="2">Hoạt động nhóm</option>
-                        <option value="3">Chương trính trò chuyện</option>
-                    </select><br>
-                    <label>Giá vào cổng: </label>
-                    <input type="text" name="price" required><br>
-                    <input type="submit" name="submit" value="Tạo sự kiện">
-                </div>
-            </fieldset>
-        </form>
+    <div class="table">
+        <h2>Danh Sách Sự Kiện Của <%= session.user.UserName %></h2>
+        <table >
+            <thead>
+                <tr>
+                    <th>Tên Sự Kiện</th>
+                    <th>Thời Gian Bắt Đầu</th>
+                    <th>Thời Gian Kết Thúc</th>
+                    <th>Địa Điểm</th>
+                    <th>Hình ảnh</th>
+                    <th>Chi Tiết</th>
+                    <th>Loại Sự Kiện</th>
+                    <th>Giá</th>
+                    <th>Trạng Thái</th>
+                    <th>Chỉnh Sửa</th>
+                    <th>Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% event.forEach( function(ev) { %>
+                    <tr>
+                        <td><%= ev.Name %></td>
+                        <td><%= ev.Start_time %></td>
+                        <td><%= ev.End_time %></td>
+                        <td><%= ev.Location %></td>
+                        <td><%= ev.Description %></td>
+                        <td><img src="<%= ev.Image_URL %>" alt="Event Image"></td>
+                        <td>
+                            <% if (ev.ID_type === 1) { %>
+                                Âm Nhạc
+                            <% } else if(ev.ID_type === 2) { %>
+                                Hoạt Động Nhóm
+                            <% } else { %>
+                                Chương Trình Trò Chuyện
+                            <% } %>
+                        </td>
+                        <td><%= ev.Price %></td>
+                        <td>
+                            <% if (ev.status === 1) { %>
+                                Đã Duyệt
+                            <% } else { %>
+                                Chưa Duyệt
+                            <% } %>
+                        </td>
+                        <td><a href="#"><i class="fa fa-fw fa-edit"></i></a></td>
+                        <td><a href="#"><i class="fa fa-fw fa-close"></i></a></td>
+                    </tr>
+                <% })%>
+            </tbody>
+        </table>
     </div>
     
-
     <script src="/js/main.js"></script>
 </body>
 </html>

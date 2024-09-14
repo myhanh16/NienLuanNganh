@@ -3,7 +3,7 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale'); // Đảm bảo import đúng locale
 const con = require('../config/database');
 const CRUD = require('../services/CRUD');
-const {listEvent, Login, Register, Logout, Create} = require('../services/CRUD');
+const {ListALLEvent, Login, Register, Logout, Create, ListEvent} = require('../services/CRUD');
 
 // const file = '/img/';
 
@@ -11,7 +11,7 @@ const {listEvent, Login, Register, Logout, Create} = require('../services/CRUD')
 // Hàm hiển thị trang chính với dữ liệu sự kiện
 const getHome = async (req, res) => {
   try {
-    await listEvent(req, res);
+    await ListALLEvent(req, res);
   } catch (error) {
     res.status(500).send('Lỗi khi tải sự kiện');
   }
@@ -59,12 +59,29 @@ const create = async (req, res) => {
 
 };
 
+// const list = async (req, res) => {
+//   try{
+//     await List (re, res);
+//   }
+//   catch {
+//     res.status(500).send('Lỗi khi tải');
+//   }
+// }
+
+//Hàm hiển thị danh sách sự kiện người dùng đã tạo
+const listevent = async (req, res) => {
+  try {
+    await ListEvent(req, res);
+  } catch (error) {
+    res.status(500).send('Lỗi khi tải sự kiện');
+  }
+};
 
 module.exports = {
   getHome,
   login,
   register,
-  // listevent,
+  listevent,
   logout,
   create,
 };

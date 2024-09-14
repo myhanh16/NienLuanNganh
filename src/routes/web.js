@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {getHome, login, register, logout, create} = require('../controllers/homeController');
+const {getHome, login, register, logout, create, listevent} = require('../controllers/homeController');
+const session = require('express-session');
 
 //Khai báo route
 router.get('/home', getHome);
@@ -29,8 +30,9 @@ router.get('/logout', logout);
 //     });
 //   });
 router.get('/create', (req, res) => {
-    res.render('create', { session: req.session });
+    res.render('create', { session: req.session, success: true });
 })
 router.post('/create', create );
 
+router.get('/listevent', listevent); // Sử dụng hàm listevent thay vì render trực tiếp
 module.exports = router;

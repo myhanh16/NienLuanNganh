@@ -3,8 +3,8 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale');
 
 
-const listEvent = async (req, res) => {
-    con.query(
+const ListALLEvent = async (req, res) => {
+    await con.query(
         'SELECT Name, Start_time, End_time, Location, Description, Image_URL, Price FROM `event` WHERE `Status` = 1',
         function(err, results) {
             if (err) throw err;
@@ -24,7 +24,7 @@ const listEvent = async (req, res) => {
 // Login
 const Login = async (req, res) => {
     let { email, password } = req.body;
-    con.query(
+    await con.query(
         'SELECT * FROM `user` WHERE `Email` = ? AND `Password` = ?', [email, password],
         function (err, results) {
             if (err) throw err;
@@ -53,7 +53,7 @@ const Register = async(req, res) => {
         res.render('register', { error: 'Email đã tồn tại. Vui lòng chọn email khác.', no_error: null});
       } else {
         // Chèn bản ghi mới vào cơ sở dữ liệu
-        con.query(
+      con.query(
           'INSERT INTO `user`(`Email`, `Password`, `UserName`, `Phone`) VALUES (?, ?, ?, ?)', [email, password, username, phone],
           function (err, results) {
             if (err) {
@@ -128,7 +128,8 @@ const Logout = async (req, res) => {
 const Create = async (req, res) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (req.session.user == null) {
-        return res.redirect('/login'); // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+        // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
+        return res.redirect('/login');// Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
     }
 
     // Đã đăng nhập thì thực hiện logic tạo sự kiện
@@ -140,7 +141,7 @@ const Create = async (req, res) => {
     console.log(Image_URL);
     Image_URL = file.concat(Image_URL);
 
-    con.query(
+  await con.query(
         'INSERT INTO `event`(`Name`, `Start_time`, `End_time`, `Location`, `Description`, `Image_URL`,`Email`, `ID_type`, `status`, `Price`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?)',
         [name, start, end, location, description, Image_URL, userEmail, ID_type, price],
         function(err, results) {
@@ -148,18 +149,46 @@ const Create = async (req, res) => {
                 console.error('Error executing query:', err);
                 return res.status(500).send('An error occurred');
             } else {
-                res.send("Tạo thành công");
+                // res.redirect('/listevent');
+                res.render('create', { success: true });
             }
         }
     );
 };
 
+const ListEvent = async (req, res) => {
+  // Kiểm tra xem người dùng đã đăng nhập hay chưa
+  if (req.session.user == null) {
+    // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
+    return res.redirect('/login');// Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+  }
+  // Đã đăng nhập thì thực hiện logic tạo sự kiện
+  const userEmail = req.session.user.Email; // Sử dụng email của người dùng đã đăng nhập nếu cần
+  await con.query (
+    'SELECT * FROM `event` WHERE `Email` = ? ',[userEmail],
+        function(err, results) {
+            if (err) throw err;
+            
+            const formattedEvents = results.map(event => ({
+                ...event,
+                Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+                End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
+            }));
+            
+            // Sử dụng res để render trang home với kết quả sự kiện
+            res.render('listevent', { event: formattedEvents, session: req.session });
+        }
+  );
+
+}
+
 
 module.exports = {
-    listEvent, 
-    Login,
-    Register,
-    Logout,
-    Create,
+  ListALLEvent, 
+  Login,
+  Register,
+  Logout,
+  Create,
+  ListEvent,
 
 }
