@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     font-size: 25px;
-    font-style: rotobo
+    font-family: 'Roboto';
 }
 
 .navbar {
@@ -106,6 +106,10 @@
 /* Current/active navbar link */
 .active {
     background-color: #3498db;
+}
+
+.active1 {
+    background-color: gray;
 }
 
 /* CSS cho container của icon "Tài Khoản" */
@@ -261,6 +265,8 @@
 
 /* Mỗi sản phẩm trong lưới */
 .product-item {
+    position: relative;
+    margin: 10px;
     background-color: white; /* Màu nền của sản phẩm */
     border: 1px solid #ddd; /* Viền xung quanh sản phẩm */
     padding: 15px;
@@ -268,6 +274,24 @@
     border-radius: 8px; /* Bo góc sản phẩm */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Bóng đổ cho sản phẩm */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Hiệu ứng khi hover */
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px; /* Đưa icon lên gần góc trên cùng */
+    right: 10px;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 40px; /* Kích thước phù hợp với thiết kế */
+    transition: color 0.2s ease-in-out; /* Hiệu ứng chuyển màu khi hover */
+}
+
+.heart-icon:hover {
+    color: red; /* Màu khi hover */
+}
+
+.heart-icon.active {
+    color: red; /* Màu khi đã được chọn */
 }
 
 /* Hình ảnh sản phẩm */
@@ -280,8 +304,9 @@
 
 /* Tên sản phẩm */
 .product-item h3 {
-    font-size: 30px;
+    font-size: 24px; /* Kích thước hợp lý */
     margin: 10px 0;
+    font-weight: bold; /* Làm nổi bật tên sản phẩm */
 }
 
 /* Giá sản phẩm */
@@ -293,9 +318,10 @@
 
 /* Hiệu ứng khi hover sản phẩm */
 .product-item:hover {
-    transform: scale(1.05); /* Phóng to sản phẩm khi hover */
+    transform: scale(1.03); /* Phóng to sản phẩm khi hover */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Tăng bóng đổ khi hover */
 }
+
 
 /* CSS cho filter-container */
 .filter-container {
@@ -520,14 +546,19 @@ p a:hover {
 
 
 /* CSS Table */
-.table h2 {
-    text-align: center;
+
+.table {
+    margin-left: 20%; /* Để phù hợp với chiều rộng của menu bên trái */
+    margin-top: 20px; /* Khoảng cách từ đầu trang hoặc menu */
+    width: 75%; /* Điều chỉnh chiều rộng của bảng cho phù hợp */
+    text-align: center; /* Căn giữa nội dung bảng */
 }
 
+/* CSS cho bảng */
 table {
-    width: 80%;
+    width: 100%; /* Chiều rộng của bảng theo khung chứa */
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 0 auto; /* Căn giữa bảng trong khung chứa */
     font-size: 16px;
     text-align: left;
 }
@@ -546,7 +577,6 @@ tr:hover {
     background-color: #f5f5f5;
 }
 
-
 /* Màu nền xen kẽ cho các hàng */
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
@@ -557,25 +587,30 @@ td img {
     max-width: 100px;
     height: auto;
 }
-
-/* Căn chỉnh và màu chữ */
-.username {
-    font-size: 18px;
-    font-weight: bold;
+/* Menu Create */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 15%; /* Chiều rộng của menu */
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 50%; /* Đảm bảo menu kéo dài hết chiều cao của trang */
+    overflow: auto;
+    border-right: 1px solid #ddd; /* Thêm đường viền phải cho menu */
 }
 
-.account-icon {
-    font-size: 24px;
-    margin-right: 10px;
-}
-
-.navbar .links a {
-    margin-right: 15px;
-    color: #333;
+ul li a {
+    display: block;
+    color: #000;
+    padding: 10px 16px;
     text-decoration: none;
 }
+ul li h2 {
+    text-align: center;
+}
 
-.navbar .links a:hover {
-    color: #007bff;
+/* Đổi màu nền và chữ của liên kết khi hover */
+li a:hover:not(.active) {
     text-decoration: underline;
 }

@@ -42,5 +42,11 @@ CREATE TABLE event (
     Email VARCHAR(255),
     FOREIGN KEY (Email) REFERENCES user(Email),
     ID_type INT,
-    FOREIGN KEY (ID_type) REFERENCES type(ID_type)
+    FOREIGN KEY (ID_type) REFERENCES type(ID_type),
+    FOREIGN KEY (status) REFERENCES status(ID_status)
+);
+
+CREATE TABLE status (
+    ID_status INT PRIMARY KEY,
+    Name_status VARCHAR(255)
 );

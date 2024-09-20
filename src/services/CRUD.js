@@ -1,8 +1,9 @@
 const con = require('../config/database');
 const { format } = require('date-fns');
 const { vi } = require('date-fns/locale');
+const session = require('express-session');
 
-
+//Hiển thị ds sự kiện đã được duyệt và đưa lên trang home
 const ListALLEvent = async (req, res) => {
     await con.query(
         'SELECT Name, Start_time, End_time, Location, Description, Image_URL, Price FROM `event` WHERE `Status` = 1',
@@ -149,13 +150,14 @@ const Create = async (req, res) => {
                 console.error('Error executing query:', err);
                 return res.status(500).send('An error occurred');
             } else {
-                // res.redirect('/listevent');
-                res.render('create', { success: true });
+                res.redirect('/listevent');
+                // res.render('create', { success: true });
             }
         }
     );
 };
 
+//Hiển thị danh sách sự kiện của người dùng nào đó sau khi đăng nhập
 const ListEvent = async (req, res) => {
   // Kiểm tra xem người dùng đã đăng nhập hay chưa
   if (req.session.user == null) {
@@ -182,6 +184,58 @@ const ListEvent = async (req, res) => {
 
 }
 
+//đăng kí tham gia sự kiện
+const RegisterEvent = async (req, res) => {
+  const eventId = req.params.eventId; // Lấy eventId từ req.params
+  const userEmail = req.session.user.Email; // Email của người dùng đã đăng nhập
+
+  // Kiểm tra xem sự kiện có tồn tại và người dùng đã đăng ký chưa
+  await con.query(
+      'INSERT INTO `event_participants`(`Email`, `ID_Event`) VALUES (?, ?)',
+      [userEmail, eventId],
+      function(err, results) {
+          if (err) {
+              console.error('Error executing query:', err);
+              return res.json({ success: false });
+          } else {
+              return res.json({ success: true });
+          }
+      }
+  );
+};
+
+const getEventByID = async (req, res) => {
+  if (req.session.user == null) {
+    // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
+    return res.redirect('/login');// Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+  }
+  // Đã đăng nhập thì thực hiện logic tạo sự kiện
+  const userEmail = req.session.user.Email;
+
+  const eventID = req.params.ID_Event;
+
+  await con.query('SELECT * FROM `event` WHERE ID_Event = ?', [eventID], 
+    function (err, results) {
+      if (err) {
+        console.error('Error executing query:', err);
+        return res.status(500).send('Error executing query');
+      }
+      if (results.length === 0) {
+        // Nếu không tìm thấy sự kiện, bạn có thể chuyển hướng người dùng hoặc hiển thị thông báo lỗi
+        return res.status(404).send('Sự kiện không tồn tại');
+      }
+      else {
+        let event = results[0];
+        res.render('edit', {session: req.session, event: event});
+      }
+      
+      // console.log("check: ", results);
+    // Xử lý kết quả ở đây
+  });
+};
+
+
+
 
 module.exports = {
   ListALLEvent, 
@@ -190,5 +244,6 @@ module.exports = {
   Logout,
   Create,
   ListEvent,
-
+  RegisterEvent,
+  getEventByID
 }

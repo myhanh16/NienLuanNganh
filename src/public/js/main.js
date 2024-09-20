@@ -79,5 +79,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+//Xử lý hiển thị hình ảnh khi tải file lên
+function previewImage(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+    
+        reader.onload = function(e) {
+            var img = document.getElementById('image-preview');
+            img.src = e.target.result;
+            img.style.display = 'block'; // Hiển thị hình ảnh
+        };
+    
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+}
 
+
+
+
+// Hàm để xử lý đăng ký tham gia sự kiện
+function registerEvent(eventId) {
+    // Hiển thị hộp thoại xác nhận
+    if (confirm('Bạn muốn tham gia sự kiện này?')) {
+        // Nếu người dùng nhấn OK, thực hiện gửi yêu cầu đăng ký
+        fetch(`/registerevent/${eventId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ eventId: eventId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Đăng ký thành công!');
+                // Cập nhật giao diện nếu cần
+                // Thay đổi màu của biểu tượng trái tim
+                document.querySelector(`.heart-icon[data-id="${eventId}"] i`).classList.add('active');
+            } else {
+                alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+        });
+    }
+}
 
