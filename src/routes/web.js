@@ -55,4 +55,9 @@ router.post('/edit', edit);
 router.get('/edit/:ID_Event', getevent);
 
 router.get('/delete/:ID_Event', del)
+
+router.get('/about', function(req, res) {
+    res.render('about', {session: req.session})
+})
+
 module.exports = router;

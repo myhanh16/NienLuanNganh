@@ -622,3 +622,74 @@ li a:hover:not(.active) {
     background-color: #d4edda; /* Màu nền xanh nhẹ */
     color: #155724; /* Màu chữ xanh đậm */
 }
+
+
+/* CSS trang about */
+/* Căn giữa phần tử chứa */
+.header-container {
+    text-align: center; /* Căn giữa nội dung theo chiều ngang trong phần tử chứa */
+    width: 100%; /* Đảm bảo phần tử chứa chiếm toàn bộ chiều rộng */
+}
+
+/* Định dạng cho phần tử h1 */
+h1 {
+    background-color: #8dcbf5;
+    height: auto;
+    margin: 0;
+    font-size: 1.5em;
+    border: 1px dotted black;
+    margin-top: 5px;
+    display: inline-block; /* Đảm bảo h1 chỉ chiếm không gian cần thiết */
+    padding: 3px;
+    border-radius: 3px;
+}
+
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.content {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.about-text {
+    flex: 1;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.about-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.icon {
+    font-size: 2em;
+    color: #35424a;
+    margin-right: 10px;
+}
+
+/* p {
+    line-height: 1.6;
+    text-align: justify;
+} */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+    }
+}
