@@ -614,3 +614,11 @@ ul li h2 {
 li a:hover:not(.active) {
     text-decoration: underline;
 }
+
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #d4edda;
+    background-color: #d4edda; /* Màu nền xanh nhẹ */
+    color: #155724; /* Màu chữ xanh đậm */
+}

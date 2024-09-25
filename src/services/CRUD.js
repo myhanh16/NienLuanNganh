@@ -150,8 +150,11 @@ const Create = async (req, res) => {
                 console.error('Error executing query:', err);
                 return res.status(500).send('An error occurred');
             } else {
+              req.flash('success_msg', 'Tạo sự kiện thành công');
+              // res.redirect('/create')
                 res.redirect('/listevent');
-                // res.render('create', { success: true });
+                // res.render('create', { session: req.session });
+               
             }
         }
     );
@@ -176,9 +179,9 @@ const ListEvent = async (req, res) => {
                 Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
                 End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
             }));
-            
+            const notify = req.flash('success_msg');
             // Sử dụng res để render trang home với kết quả sự kiện
-            res.render('listevent', { event: formattedEvents, session: req.session });
+            res.render('listevent', { event: formattedEvents, session: req.session, notify: notify });
         }
   );
 
@@ -235,7 +238,66 @@ const getEventByID = async (req, res) => {
 };
 
 
+const editEvent = async (req, res) => {
+  
+  if (req.session.user == null) {
+    return res.redirect('/login');
+  }
 
+  let { name, start, end, location, description, currentImageURL, ID_type, price, eventID } = req.body;
+  const userEmail = req.session.user.Email;
+
+  let Image_URL;
+  if (req.files && req.files.Image_URL) {
+    const file = '/img/';
+    Image_URL = file.concat(req.files.Image_URL.name);
+    req.files.Image_URL.mv('./public' + Image_URL);
+  } else {
+    Image_URL = currentImageURL;
+  }
+
+  try {
+    const results = await con.query(
+      'UPDATE `event` SET `Name`= ?, `Start_time`= ?, `End_time`= ?, `Location`= ?, `Description`= ?, `Image_URL`= ?, `Email`= ?, `ID_type`= ?, `Price`= ? WHERE ID_Event = ?',
+      [name, start, end, location, description, Image_URL, userEmail, ID_type, price, eventID]
+  );
+  
+  
+    if (results.affectedRows === 0) {
+     req.flash('error_msg', 'Sự kiện không tồn tại');
+      return res.redirect('/edit/' + eventID);
+    } else {
+      req.flash('success_msg', 'Cập nhật sự kiện thành công');
+      return res.redirect('/listevent');
+  }
+  } catch (error) {
+    req.flash('error_msg', 'Lỗi khi cập nhật sự kiện');
+    return res.redirect('/edit/' + eventID);
+  }
+
+};
+
+
+const deleteEvent = async (req, res) => {
+  if (req.session.user == null) {
+    return res.redirect('/login');
+  }
+
+  const eventID = req.params.ID_Event;
+
+  try{
+    await con.query(
+      'DELETE FROM `event` WHERE ID_Event = ? ',[eventID]
+
+    );
+    req.flash('success_msg', 'Xóa sự kiện thành công!');
+    res.redirect('/listevent')
+  }
+  catch(error){
+    console.error('Lỗi khi xóa sự kiện:', error);
+        res.status(500).send('Có lỗi xảy ra khi xóa sự kiện.');
+  }
+}
 
 module.exports = {
   ListALLEvent, 
@@ -245,5 +307,7 @@ module.exports = {
   Create,
   ListEvent,
   RegisterEvent,
-  getEventByID
+  getEventByID,
+  editEvent,
+  deleteEvent
 }

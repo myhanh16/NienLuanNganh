@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {getHome, login, register, logout, create, listevent, registerevent,
-    getevent} = require('../controllers/homeController');
+    getevent, edit, del} = require('../controllers/homeController');
 const session = require('express-session');
 
 //Khai báo route
@@ -42,6 +42,17 @@ router.post('/registerevent/:eventId', registerevent);
 
 
 // POST route to update the event
+
+router.get('/edit', function (req, res) {
+    const notify = req.flash('success_msg'); // Lấy flash message thành công từ session
+    const error_msg = req.flash('error_msg'); // Lấy flash message lỗi từ session
+    res.render('edit', { notify: notify, error_msg: error_msg});
+});
+  
+router.post('/edit', edit);
+
+
 router.get('/edit/:ID_Event', getevent);
 
+router.get('/delete/:ID_Event', del)
 module.exports = router;

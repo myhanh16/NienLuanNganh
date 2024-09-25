@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const multer = require('multer');
 const session = require('express-session');
+const flash = require('connect-flash');
 const configViewEngine = require ('./src/config/viewEngine')
 const webRouter = require('./src/routes/web');
 const con = require('./src/config/database')
@@ -18,6 +19,8 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }  // secure: true nếu sử dụng HTTPS
 }));
+
+app.use(flash());
 
 //config req.body
 app.use(express.json()) // for json

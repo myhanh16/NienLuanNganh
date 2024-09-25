@@ -97,7 +97,6 @@ function previewImage(event) {
 
 
 
-
 // Hàm để xử lý đăng ký tham gia sự kiện
 function registerEvent(eventId) {
     // Hiển thị hộp thoại xác nhận
@@ -129,3 +128,11 @@ function registerEvent(eventId) {
     }
 }
 
+//Hàm hiển thị bảng thông báo xóa sự kiện
+function confirmDelete(eventId, eventName) {
+    var confirmed = confirm('Bạn muốn xóa sự kiện tên "' + eventName + '"?');
+    if (confirmed) {
+        // Nếu người dùng nhấn OK, chuyển hướng tới trang xóa sự kiện
+        window.location.href = '/delete/' + eventId;
+    }
+}

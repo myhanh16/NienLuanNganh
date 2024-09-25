@@ -69,13 +69,21 @@
         <li><h2>Danh Mục</h2></li>
         <li><a href="/create" class="">Tạo sự kiện</a></li>
         <li><a href="/listevent" class="active1">Danh Sách Sự Kiện</a></li>
-        <li><a href="/edit">Sửa Thông Tin Sự Kiện</a></li>
+        <!-- <li><a href="/edit">Sửa Thông Tin Sự Kiện</a></li> -->
         <!-- <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li> -->
     </ul>
 
+    
+      
+
     <div class="table">
         <h2>Danh Sách Sự Kiện Của <%= session.user.UserName %></h2>
+        <% if (notify && notify.length > 0) { %>
+            <div class="alert alert-success" style="color: red;">
+                <%= notify[0] %>
+            </div>
+        <% } %>
         <table border="1">
             <thead>
                 <tr>
@@ -119,7 +127,7 @@
                             <% } %>
                         </td>
                         <td><a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-fw fa-close"></i></a></td>
+                        <td><a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close"></i></a></td>
                     </tr>
                 <% })%>
             </tbody>
@@ -127,5 +135,6 @@
     </div>
     
     <script src="/js/main.js"></script>
+
 </body>
 </html>

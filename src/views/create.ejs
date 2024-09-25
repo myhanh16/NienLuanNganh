@@ -68,16 +68,19 @@
         <li><h2>Danh Mục</h2></li>
         <li><a href="/create" class="active1">Tạo sự kiện</a></li>
         <li><a href="/listevent" class="">Danh Sách Sự Kiện</a></li>
-        <li><a href="/edit">Sửa Thông Tin Sự Kiện</a></li>
+        <!-- <li><a href="/edit">Sửa Thông Tin Sự Kiện</a></li> -->
         <!-- <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li> -->
     </ul>
+
+    
 
     <div class="form-create">
         <form action="/create" method="post">
             <fieldset>
                 <legend>Tạo sự kiện</legend>
                 
+
                 <div class="input-user">
                     <label>Tên sự kiện: </label>
                     <input type="text" name="name" required><br>
@@ -97,7 +100,7 @@
                         <option value="">Chọn loại sự kiện</option>
                         <option value="1">Âm nhạc</option>
                         <option value="2">Hoạt động nhóm</option>
-                        <option value="3">Chương trính trò chuyện</option>
+                        <option value="3">Chương trình trò chuyện</option>
                     </select><br>
                     <label>Giá vào cổng: </label>
                     <input type="text" name="price" required><br>
@@ -109,5 +112,6 @@
     
 
     <script src="/js/main.js"></script>
+    
 </body>
 </html>

@@ -3,7 +3,7 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale'); // Đảm bảo import đúng locale
 const con = require('../config/database');
 const CRUD = require('../services/CRUD');
-const {ListALLEvent, Login, Register, Logout, Create, ListEvent, RegisterEvent, getEventByID} = require('../services/CRUD');
+const {ListALLEvent, Login, Register, Logout, Create, ListEvent, RegisterEvent, getEventByID, editEvent, deleteEvent} = require('../services/CRUD');
 
 // const file = '/img/';
 
@@ -96,8 +96,25 @@ const getevent = async (req, res) => {
   }
 }
 
+const edit = async (req, res) => {
+  try {
+    await editEvent(req, res);
+    console.log('Flash message set:', req.flash('success_msg'));
+  } catch (error) {
+    req.flash('error_msg', 'Lỗi khi cập nhật sự kiện');
+    console.log('Flash error message set:', req.flash('error_msg'));
+    res.redirect('/edit');
+  }
+}
 
-
+const del = async (req, res) => {
+  try{
+    await deleteEvent(req, res);
+  }
+  catch(error){
+    res.status(500).send('Lỗi khi tải sự kiện');
+  }
+}
 
 module.exports = {
   getHome,
@@ -107,5 +124,7 @@ module.exports = {
   logout,
   create,
   registerevent,
-  getevent
+  getevent,
+  edit,
+  del
 };

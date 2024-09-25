@@ -56,7 +56,7 @@
             <fieldset>
                 <legend>Đăng Ký</legend>
                 <% if (error) { %>
-                    <p style="color: red; text-align:center"><%= error %></p>
+                    <p class="alert alert-success" style="color: red;"><%= error %></p>
                 <% } %>
                 <% if (no_error) { %>
                     <p style="color: green; text-align:center"><%= no_error %></p>

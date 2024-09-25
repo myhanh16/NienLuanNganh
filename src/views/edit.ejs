@@ -68,16 +68,19 @@
         <li><h2>Danh Mục</h2></li>
         <li><a href="/create" class="">Tạo sự kiện</a></li>
         <li><a href="/listevent" class="">Danh Sách Sự Kiện</a></li>
-        <li><a href="/edit" class="active1">Sửa Thông Tin Sự Kiện</a></li>
+        <!-- <li><a href="/edit" class="active1">Sửa Thông Tin Sự Kiện</a></li> -->
         <!-- <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li> -->
     </ul>
+
+    
 
     <div class="form-create">
         <form action="/edit" method="post">
             <fieldset>
                 <legend>Sửa Thông Tin Sự Kiện</legend>
-               
+                  
+
                 <div class="input-user">
                     <input type="hidden" name="eventID" value="<%= event.ID_Event%>">
                     <label>Tên sự kiện: </label>
@@ -90,6 +93,7 @@
                     <label>Địa điểm: </label>
                     <input type="text" name="location" value="<%= event.Location %>" required><br>
                     <label for="file">Hình ảnh:</label>
+                    <input type="hidden" name="currentImageURL" value="<%= event.Image_URL %>">
                     <% if (event.Image_URL) { %>
                         <img id="image-preview" src="<%= event.Image_URL %>" alt="Hình ảnh sự kiện" style="max-width: 200px;">
                     <% } %>
@@ -113,7 +117,9 @@
         </form>
     </div>
     
-
+    
+    
+      
     <script src="/js/main.js"></script>
 </body>
 </html>
