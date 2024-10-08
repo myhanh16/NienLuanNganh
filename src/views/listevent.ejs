@@ -30,7 +30,7 @@
                       <a href="/listvent" class="active">Danh Sách Sự Kiện</a>
                     </div>
                   </div> -->
-                <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
                 <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
                 <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
                 <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
@@ -78,7 +78,7 @@
       
 
     <div class="table">
-        <h2>Danh Sách Sự Kiện Của <%= session.user.UserName %></h2>
+        <h4>Danh Sách Sự Kiện Của <%= session.user.UserName %></h4>
         <% if (notify && notify.length > 0) { %>
             <div class="alert alert-success" style="color: red;">
                 <%= notify[0] %>
@@ -95,6 +95,7 @@
                     <th>Chi Tiết</th>
                     <th>Loại Sự Kiện</th>
                     <th>Giá</th>
+                    <th>Sức chứa</th>
                     <th>Trạng Thái</th>
                     <th>Chỉnh Sửa</th>
                     <th>Xóa</th>
@@ -119,6 +120,7 @@
                             <% } %>
                         </td>
                         <td><%= ev.Price %></td>
+                        <td><%= ev.Max_Participants%> Người</td>
                         <td>
                             <% if (ev.status === 1) { %>
                                 Đã Duyệt

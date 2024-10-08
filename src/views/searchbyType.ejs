@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Tìm Kiếm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="navbar">
+        <a href="/home" class="logo">
+            <img src="/img/logo.png" alt="Logo">
+        </a>
+        <div class="links">
+            <a class="active" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+            <a href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+            <a href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+            <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
+            <% if (session.user) { %>
+                <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+            <% } else { %>
+                <div class="dropdown">
+                    <p class="dropbtn">Đăng Nhập <i class="fa fa-caret-down"></i></p>
+                    <div class="dropdown-content">
+                        <a href="/login">Đăng Nhập</a>
+                        <a href="/register">Đăng Ký</a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        
+        <div class="account-icon-container">
+            <% if (session.user) { %>
+                <i class="fa fa-fw fa-user-circle account-icon">
+                    <p class="username"><%= session.user.UserName %></p>
+                </i>
+            <% } else { %>
+                <i class="fa fa-fw fa-user-circle account-icon">
+                    <p class="username">Tài Khoản</p>
+                </i>
+            <% } %>
+        </div>
+        
+    </div>
+</header>
+
+<!-- Search Results -->
+<% if (event.length > 0) { %>
+    <% let eventTypeMessage; %>
+    <% if (eventQuery === '1') { %>
+        <% eventTypeMessage = 'Âm Nhạc'; %>
+    <% } else if (eventQuery === '3') { %>
+        <% eventTypeMessage = 'Chương Trình Trò Chuyện'; %>
+    <% } else if (eventQuery === '2') { %>
+        <% eventTypeMessage = 'Hoạt Động Nhóm'; %>
+    <% } else { %>
+        <% eventTypeMessage = 'Sự Kiện Khác'; %>
+    <% } %>
+    <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho Sự kiện Theo Loại: "<%= eventTypeMessage %>"</h2>
+    <div class="product-grid">
+        <% event.forEach(function(ev) { %>
+            <div class="product-item">
+                <div class="heart-icon">
+                    <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
+                </div>
+                <img src="<%= ev.Image_URL %>" alt="Event Image">
+                <h3><%= ev.Name %></h3>
+                <p>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></p>
+                <p>Địa điểm: <%= ev.Location %></p>
+                <p>Giá vào cổng: <%= ev.Price %></p>
+                <p>Chi tiết: <%= ev.Description %></p>
+                <div class="max">
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants %></i></p>
+                </div>
+            </div>
+        <% }); %>
+        <% } else { %>
+            <% let eventTypeMessage; %>
+            <% if (eventQuery === '1') { %>
+                <% eventTypeMessage = 'Âm Nhạc'; %>
+            <% } else if (eventQuery === '3') { %>
+                <% eventTypeMessage = 'Chương Trình Trò Chuyện'; %>
+            <% } else if (eventQuery === '2') { %>
+                <% eventTypeMessage = 'Hoạt Động Nhóm'; %>
+            <% } else { %>
+                <% eventTypeMessage = 'Sự Kiện Khác'; %>
+            <% } %>
+            <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho Sự Kiện Theo Loại: "<%= eventTypeMessage %>"</h2>
+            <div class="alert alert-success" style="color: red; text-align:center">
+                Không tìm thấy sự kiện nào cho loại sự kiện "<%= eventTypeMessage %>".
+            </div>
+        <% } %>
+    </div>
+    <script src="/js/main.js"></script>
+
+</body>
+</html>

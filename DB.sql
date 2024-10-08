@@ -15,7 +15,7 @@ CREATE TABLE event_participants (
 CREATE TABLE user (
     Email VARCHAR(255) PRIMARY KEY,
     Password VARCHAR(255),
-    Name_user VARCHAR(255),
+    UserName VARCHAR(255),
     Phone VARCHAR(20),
     admin INT,
     sell INT
@@ -38,6 +38,7 @@ CREATE TABLE event (
     Description VARCHAR(255),
     Image_URL VARCHAR(255),
     status INT,
+    Max_Participants INT,
     Price INT,
     Email VARCHAR(255),
     FOREIGN KEY (Email) REFERENCES user(Email),
@@ -48,5 +49,8 @@ CREATE TABLE event (
 
 CREATE TABLE status (
     ID_status INT PRIMARY KEY,
-    Name_status VARCHAR(255)
+    Name_status VARCHAR(255),
+    Reason VARCHAR(255)
 );
+
+

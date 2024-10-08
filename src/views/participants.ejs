@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giới thiệu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Đã Tham Gia</title>
     <link rel="stylesheet" href="/css/main.css">
-
 </head>
 <body>
     <header class="header">
@@ -19,7 +17,8 @@
             </a>
             <div class="links">
                 <a class="" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a class="" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                <a class="" href="/create" ><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                
                 <!-- <div class="dropdown">
                     <p class="dropbtn">Tạo Sự Kiện
                       <i class="fa fa-fw fa-edit"></i>
@@ -30,11 +29,11 @@
                       <a href="#">Quản Lý Người Tham Gia</a>
                     </div>
                   </div> -->
-                <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                <a class="active" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
                 <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
                 <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
                 <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
-                <a href="/about" class="active"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
+                <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
                 <% if (session.user) { %>
                     <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
                 <% } else { %>
@@ -65,29 +64,36 @@
         </div>
     </header>
 
+    <% if (notify.length > 0) { %>
+        <h4>Danh Sách Các Sự Kiện Của <%= session.user.UserName %> Đã Đăng Ký</h4>
+        <div class="alert alert-success" style="color: red; text-align:center">
+            <%= notify[0] %>
+        </div>
+    <% } else { %>
+    <h4>Danh Sách Các Sự Kiện Của <%= session.user.UserName %> Đã Đăng Ký</h4>
+    <div class="product-grid">
+        <% event.forEach(function(ev) { %>
+            <div class="product-item">
+                <div class="heart-icon">
+                    <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
+                </div>
+                <img src="<%= ev.Image_URL %>" alt="Event Image">
+                <h3><%= ev.Name %></h3>
+                <p>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></p>
+                <p>Địa điểm: <%= ev.Location %></p>
+                <p>Giá vào cổng: <%= ev.Price %></p>
+                <p>Chi tiết: <%= ev.Description %></p>
+                <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
+                <div class="max">
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants %></i></p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
     
-    <div class="header-container">
-        <h1>Giới Thiệu Về Chúng Tôi</h1>
-    </div>
-    <div class="container">
-        <div class="about-section">
-            <div class="about-text">
-                <h2><i class="fas fa-info-circle icon"></i> Về Chúng Tôi</h2>
-                <p style="text-align: justify;">Trang web quản lý sự kiện của chúng tôi mang đến giải pháp toàn diện cho sự kiện tổ chức và tham gia. Người dùng có thể dễ dàng xem danh sách các sự kiện nổi bật, đăng ký nhanh chóng và nhận email xác nhận ngay sau khi đăng ký. Với giao diện thân thiện và tiện ích, bạn sẽ có trải nghiệm quản lý sự kiện chuyên nghiệp và dễ dàng.</p>
-            </div>
-        </div>
-        <div class="about-section">
-            <div class="about-text">
-                <h2><i class="fas fa-bullseye icon"></i> Sứ Mệnh</h2>
-                <p style="text-align: justify;">Sứ mệnh của chúng tôi là kết nối cộng đồng thông tin qua các hoạt động tổ chức và tham gia các sự kiện một cách thuận lợi và hiệu quả. Chúng tôi cam kết tạo ra một nền tảng giúp người dùng dễ dàng khám phá, tham gia và tổ chức các sự kiện, từ đó cung cấp sự giao lưu, chia sẻ và phát triển cá nhân cũng như cộng đồng.</p>
-            </div>
-        </div>
-        <div class="about-section">
-            <div class="about-text">
-                <h2><i class="fas fa-envelope icon"></i> Liên Hệ</h2>
-                <p style="text-align: justify;">Nếu bạn có bất kỳ câu hỏi nào, xin vui lòng liên hệ với chúng tôi qua email: <a href="mailto:info@chungtoi.com">info@chungtoi.com</a>.</p>
-            </div>
-        </div>
-    </div>
+    <% } %>
+    <script src="/js/main.js"></script>
+    <!-- <script src="/src/services/CRUD.js"></script> -->
+    
 </body>
 </html>

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {getHome, login, register, logout, create, listevent, registerevent,
-    getevent, edit, del} = require('../controllers/homeController');
+    getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype} = require('../controllers/homeController');
 const session = require('express-session');
 
 //Khai báo route
@@ -30,15 +30,19 @@ router.get('/logout', logout);
 //       res.redirect('/home');
 //     });
 //   });
-router.get('/create', (req, res) => {
+// router.get('/create', (req, res) => {
+//     res.render('create', { session: req.session });
+// })
+router.get('/create', isAuthenticated, (req, res) => {
+    // Hiển thị trang tạo sự kiện nếu người dùng đã đăng nhập
     res.render('create', { session: req.session });
-})
+});
+  
 router.post('/create', create );
 
 router.get('/listevent', listevent); // Sử dụng hàm listevent thay vì render trực tiếp
 
 router.post('/registerevent/:eventId', registerevent);
-
 
 
 // POST route to update the event
@@ -60,4 +64,14 @@ router.get('/about', function(req, res) {
     res.render('about', {session: req.session})
 })
 
+
+router.get('/search', Searchevent);
+
+router.get('/participants', participants);
+
+router.post('/sendEmail', sendEmail, (req, res) => {
+    res.render('participants', {sesesion: req.sesesion.user})
+});
+
+router.get('/searchbyType', searcheventbytype);
 module.exports = router;

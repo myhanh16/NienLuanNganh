@@ -19,7 +19,8 @@
             </a>
             <div class="links">
                 <a class="active" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a class="" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                <a class="" href="/create" ><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                
                 <!-- <div class="dropdown">
                     <p class="dropbtn">Tạo Sự Kiện
                       <i class="fa fa-fw fa-edit"></i>
@@ -30,7 +31,7 @@
                       <a href="#">Quản Lý Người Tham Gia</a>
                     </div>
                   </div> -->
-                <a class="" href=""><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
                 <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
                 <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
                 <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
@@ -68,18 +69,20 @@
     <div class="banner">
         <img src="/img/banner.jpg" alt="Header Image">
         <!-- Thanh tìm kiếm đặt chồng lên banner -->
-        <div class="search-container">
-            <input type="text" placeholder="Nhập sự kiện cần tìm" id="event">
-            <button><i class="fa fa-fw fa-search"></i></button>
-        </div>
+        <!-- <div class="search-container">  -->
+            <form action="/search" method="GET" class="search-container">
+                <input type="text" name="event" placeholder="Nhập sự kiện cần tìm" id="event">
+                <button  type="submit"><i class="fa fa-fw fa-search"></i></button>
+            </form>
+        <!-- </div> -->
     </div>
 
     <div class="filter-container">
-        <select id="event-type">
+        <select id="event-type" name="event_type">
             <option value="">Chọn loại sự kiện</option>
             <option value="1">Âm nhạc</option>
             <option value="2">Hoạt động nhóm</option>
-            <option value="3">Chương trính trò chuyện</option>
+            <option value="3">Chương trình trò chuyện</option>
         </select>
     </div>
 
@@ -87,7 +90,7 @@
         <% event.forEach(function(ev) { %>
             <div class="product-item">
                 <div class="heart-icon">
-                    <i class="fa fa-heart" onclick="registerEvent('<%= ev.ID_Event %>')"></i>
+                    <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
                 </div>
                 <img src="<%= ev.Image_URL %>" alt="Event Image">
                 <h3><%= ev.Name %></h3>
@@ -95,9 +98,16 @@
                 <p>Địa điểm: <%= ev.Location %></p>
                 <p>Giá vào cổng: <%= ev.Price %></p>
                 <p>Chi tiết: <%= ev.Description %></p>
+                <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
+                <div class="max">
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants %></i></p>
+                </div>
             </div>
         <% }); %>
+    </div>
     
     <script src="/js/main.js"></script>
+    
+    
 </body>
 </html>
