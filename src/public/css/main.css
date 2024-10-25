@@ -278,11 +278,11 @@
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Hiệu ứng khi hover */
 }
 
-.max {
+.max p i{
     position: absolute;
     bottom: 10px;
     right: 50px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
     display: flex;
     align-items: center;
@@ -843,3 +843,5 @@ h4 {
 .ticket-booking button:hover {
     background-color: #218838; /* Màu nền khi di chuột vào nút */
 }
+
+

@@ -3,6 +3,7 @@ const router = express.Router();
 const {getHome, login, register, logout, create, listevent, registerevent,
     getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype} = require('../controllers/homeController');
 const session = require('express-session');
+const { route } = require('express/lib/application');
 
 //Khai báo route
 router.get('/home', getHome);
@@ -74,4 +75,7 @@ router.post('/sendEmail', sendEmail, (req, res) => {
 });
 
 router.get('/searchbyType', searcheventbytype);
+
+
+
 module.exports = router;

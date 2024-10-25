@@ -72,8 +72,9 @@
                 <p>Địa điểm: <%= ev.Location %></p>
                 <p>Giá vào cổng: <%= ev.Price %></p>
                 <p>Chi tiết: <%= ev.Description %></p>
+                <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
                 <div class="max">
-                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants %></i></p>
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
                 </div>
             </div>
         <% }); %>

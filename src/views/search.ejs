@@ -84,17 +84,18 @@
                         <p>Chi tiết: <%= ev.Description %></p>
                         <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
                         <div class="max">
-                            <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants %></i></p>
+                            <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
                         </div>
                     </div>
         <% }); %>
     </div>
         <% } else { %>
-            <div class="alert alert-success" style="color: red; text-align:center">
-                <p>Không tìm thấy sự kiện nào phù hợp với từ khóa "<%= eventQuery %>"</p>
+            <div class="alert alert-success" style="color: red; text-align:center; justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center;">
+                Không tìm thấy sự kiện nào phù hợp với từ khóa "<%= eventQuery %>"
             </div>
         <% } %>
-    </div>
+
     <script src="/js/main.js"></script>
 </body>
 </html>

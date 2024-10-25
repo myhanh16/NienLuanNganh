@@ -1,16 +1,6 @@
 -- Sử dụng DB event
 USE event;
 
-
--- Tạo bảng Event Participants
-CREATE TABLE event_participants (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Email VARCHAR(255),
-    ID_Event INT,
-    FOREIGN KEY (Email) REFERENCES user(Email),
-    FOREIGN KEY (ID_Event) REFERENCES event(ID_Event)
-);
-
 -- Tạo bảng User
 CREATE TABLE user (
     Email VARCHAR(255) PRIMARY KEY,
@@ -45,6 +35,15 @@ CREATE TABLE event (
     ID_type INT,
     FOREIGN KEY (ID_type) REFERENCES type(ID_type),
     FOREIGN KEY (status) REFERENCES status(ID_status)
+);
+
+-- Tạo bảng Event Participants
+CREATE TABLE event_participants (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255),
+    ID_Event INT,
+    FOREIGN KEY (Email) REFERENCES user(Email),
+    FOREIGN KEY (ID_Event) REFERENCES event(ID_Event)
 );
 
 CREATE TABLE status (

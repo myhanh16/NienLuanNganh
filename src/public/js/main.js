@@ -104,9 +104,8 @@ function previewImage(event) {
 // Hàm để xử lý đăng ký tham gia sự kiện
 function registerEvent(eventId) {
     console.log(`Đăng ký sự kiện với ID: ${eventId}`);
-    // Hiển thị hộp thoại xác nhận với ID sự kiện
-    if (confirm(`Bạn có muốn đăng ký sự kiện ${eventId} này không?`)) { 
-        // Nếu người dùng chọn OK, gửi yêu cầu đăng ký sự kiện
+
+    if (confirm(`Bạn có muốn đăng ký sự kiện ${eventId} này không?`)) {
         fetch(`/registerevent/${eventId}`, {
             method: 'POST',
             headers: {
@@ -116,11 +115,11 @@ function registerEvent(eventId) {
             body: JSON.stringify({ eventId: eventId })
         })
         .then(response => {
-            if (response.status === 401) { // Kiểm tra nếu người dùng chưa đăng nhập
+            if (response.status === 401) {
                 if (confirm('Bạn cần đăng nhập để đăng ký sự kiện này. Bạn có muốn đăng nhập không?')) {
-                    window.location.href = '/login'; // Chuyển hướng đến trang đăng nhập
+                    window.location.href = '/login';
                 }
-                return; // Dừng việc tiếp tục xử lý sau khi chuyển hướng
+                return;
             }
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -128,21 +127,23 @@ function registerEvent(eventId) {
             return response.json();
         })
         .then(data => {
-            if (!data) return; // Dừng xử lý nếu không có dữ liệu (do đã chuyển hướng)
-            
-            console.log(data);
+            if (!data) return;
+
             if (data.success) {
-                alert(data.message); // Hiển thị thông báo thành công
-                // Cập nhật giao diện nếu cần (VD: đổi trạng thái icon trái tim)
+                alert(data.message);
+
+                // Lấy thông tin sự kiện từ phản hồi và gửi email
                 const eventDetails = {
-                    eventName: data.Name,
-                    startTime: data.Start_time,
-                    endTime: data.End_time,
-                    location: data.Location,
-                    description: data.Description,
-                    eventId: eventId
+                    eventName: data.event.Name,
+                    startTime: data.event.Start_time,
+                    endTime: data.event.End_time,
+                    location: data.event.Location,
+                    description: data.event.Description,
+                    // eventId: eventId
                 };
-                // sendEmail(data.Email, eventDetails);
+                console.log('Event details:', eventDetails);
+
+                // Gửi email qua route sendEmail
                 fetch('/sendEmail', {
                     method: 'POST',
                     headers: {
@@ -157,15 +158,16 @@ function registerEvent(eventId) {
                 .then(msg => console.log(msg))
                 .catch(err => console.error('Lỗi khi gửi email:', err));
             } else {
-                alert(data.message || 'Đã xảy ra lỗi. Vui lòng thử lại'); // Hiển thị thông báo lỗi
+                alert(data.message || 'Đã xảy ra lỗi. Vui lòng thử lại');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error); // Ghi lại lỗi
+            console.error('Lỗi:', error);
             alert('Đã xảy ra lỗi. Vui lòng thử lại!!!');
         });
     }
 }
+
 
 
 

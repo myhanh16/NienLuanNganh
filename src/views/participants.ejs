@@ -74,9 +74,9 @@
     <div class="product-grid">
         <% event.forEach(function(ev) { %>
             <div class="product-item">
-                <div class="heart-icon">
+                <!-- <div class="heart-icon">
                     <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
-                </div>
+                </div> -->
                 <img src="<%= ev.Image_URL %>" alt="Event Image">
                 <h3><%= ev.Name %></h3>
                 <p>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></p>
@@ -84,9 +84,9 @@
                 <p>Giá vào cổng: <%= ev.Price %></p>
                 <p>Chi tiết: <%= ev.Description %></p>
                 <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
-                <div class="max">
-                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants %></i></p>
-                </div>
+                <!-- <div class="max">
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
+                </div> -->
             </div>
         <% }); %>
     </div>

@@ -3,7 +3,8 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale'); // Đảm bảo import đúng locale
 const con = require('../config/database');
 const CRUD = require('../services/CRUD');
-const {ListALLEvent, Login, Register, Logout, Create, ListEvent, RegisterEvent, getEventByID, editEvent, deleteEvent, searchEvent, Participants, sendRegistrationEmail, searchEventbyType} = require('../services/CRUD');
+const {ListALLEvent, Login, Register, Logout, Create, ListEvent, RegisterEvent, getEventByID, editEvent, deleteEvent, searchEvent, 
+       Participants, sendRegistrationEmail, searchEventbyType} = require('../services/CRUD');
 
 // const file = '/img/';
 
@@ -179,6 +180,8 @@ const searcheventbytype = async (req, res) =>{
   }
 }
 
+
+
 module.exports = {
   getHome,
   login,
@@ -194,5 +197,5 @@ module.exports = {
   isAuthenticated,
   participants,
   sendEmail,
-  searcheventbytype
+  searcheventbytype, 
 };

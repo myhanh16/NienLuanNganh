@@ -6,23 +6,29 @@ const { search } = require('../routes/web');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-//Hiển thị ds sự kiện đã được duyệt và đưa lên trang home
+//Hiển thị ds sự kiện đã được duyệt và đưa lên trang home và số lượng người tham gia còn lại
 const ListALLEvent = async (req, res) => {
-    await con.query(
-        'SELECT ID_Event,Name, Start_time, End_time, Location, Description, Image_URL, Price, Max_Participants FROM `event` WHERE `Status` = 1',
-        function(err, results) {
-            if (err) throw err;
-            
-            const formattedEvents = results.map(event => ({
-                ...event,
-                Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
-                End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
-            }));
-            
-            // Sử dụng res để render trang home với kết quả sự kiện
-            res.render('home', { event: formattedEvents, session: req.session });
-        }
-    );
+  await con.query(
+      `SELECT e.*, COUNT(ep.Email) AS Participant_Count
+       FROM event e
+       LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event
+       WHERE e.Status = 1
+       GROUP BY e.ID_Event`,
+      function(err, results) {
+          if (err) throw err;
+          
+          // Định dạng lại thời gian bắt đầu và kết thúc
+          const formattedEvents = results.map(event => ({
+              ...event,
+              Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+              End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+              Participant_Count: event.Participant_Count // Thêm số lượng người tham gia
+          }));
+
+          // Sử dụng res để render trang home với kết quả sự kiện
+          res.render('home', { event: formattedEvents, session: req.session });
+      }
+  );
 };
 
 // Login
@@ -192,33 +198,76 @@ const ListEvent = async (req, res) => {
 
 //đăng kí tham gia sự kiện
 const RegisterEvent = async (req, res) => {
-    try {
-        const eventId = req.params.eventId;
+  try {
+      const eventId = req.params.eventId;
 
-        // Check if user is logged in
-        if (!req.session.user) {
-            return res.status(401).json({ success: false, message: 'Bạn cần đăng nhập để đăng ký sự kiện.' });
-        }
+      
+      if (!req.session.user) {
+          return res.status(401).json({ success: false, message: 'Bạn cần đăng nhập để đăng ký sự kiện.' });
+      }
 
-        const userEmail = req.session.user.Email;
+      const userEmail = req.session.user.Email;
+      await con.query(
+          'INSERT INTO event_participants (Email, ID_Event) VALUES (?, ?)',
+          [userEmail, eventId],
+          (err, results) => {
+              if (err) {
+                  console.error('Lỗi truy vấn cơ sở dữ liệu:', err);
+                  return res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi đăng ký sự kiện.' });
+              }
 
-        // Insert into the database
-        await con.query(
-            'INSERT INTO event_participants (Email, ID_Event) VALUES (?, ?)',
-            [userEmail, eventId],
-            (err, results) => {
-                if (err) {
-                    console.error('Database query error:', err); // Log the database error
-                    return res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi đăng ký sự kiện.' });
-                }
-                return res.json({ success: true, message: 'Đăng ký thành công!' });
-            }
-        );
-    } catch (error) {
-        console.error('Error:', error); // Log any unexpected errors
-        return res.status(500).json({ success: false, message: 'Lỗi server. Vui lòng thử lại sau.' });
-    }
+              // Lấy thông tin sự kiện
+              con.query(
+                  'SELECT Name, Start_time, End_time, Location, Description FROM event WHERE ID_Event = ?',
+                  [eventId],
+                  (err, eventResults) => {
+                      if (err) {
+                          console.error('Lỗi truy vấn thông tin sự kiện:', err);
+                          return res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi lấy thông tin sự kiện.' });
+                      }
+
+                      if (eventResults.length === 0) {
+                          return res.status(404).json({ success: false, message: 'Không tìm thấy sự kiện.' });
+                      }
+
+                      // Định dạng thời gian
+                      const formatDate = (date) => {
+                          const d = new Date(date);
+                          const day = (`0${d.getDate()}`).slice(-2);
+                          const month = (`0${d.getMonth() + 1}`).slice(-2); 
+                          const year = d.getFullYear();
+                          const hours = (`0${d.getHours()}`).slice(-2);
+                          const minutes = (`0${d.getMinutes()}`).slice(-2);
+                          return `${day}/${month}/${year} ${hours}:${minutes}`;
+                      };
+
+                      
+                      const formattedStartTime = formatDate(eventResults[0].Start_time);
+                      const formattedEndTime = formatDate(eventResults[0].End_time);
+
+                      
+                      return res.json({
+                          success: true,
+                          message: 'Đăng ký thành công!',
+                          event: {
+                              Name: eventResults[0].Name,
+                              Start_time: formattedStartTime,   
+                              End_time: formattedEndTime,       
+                              Location: eventResults[0].Location,
+                              Description: eventResults[0].Description
+                          },
+                          Email: userEmail 
+                      });
+                  }
+              );
+          }
+      );
+  } catch (error) {
+      console.error('Lỗi:', error);
+      return res.status(500).json({ success: false, message: 'Lỗi server. Vui lòng thử lại sau.' });
+  }
 };
+
 
 //Lấy ID sự kiện
 const getEventByID = async (req, res) => {
@@ -315,33 +364,41 @@ const deleteEvent = async (req, res) => {
 
 //Tìm kiếm sự kiện theo tên
 const searchEvent = async (req, res) => {
-  if (req.session.user == null) {
-      return res.redirect('/login');
-  }
+  // if (req.session.user == null) {
+  //     return res.redirect('/login');
+  // }
 
   let { event } = req.query;  // Lấy dữ liệu từ query khi dùng GET method
 
   await con.query(
-      'SELECT * FROM `event` WHERE Name LIKE ? AND status = 1', [`%${event}%`],
+      `SELECT e.*, COUNT(ep.Email) AS Participant_Count
+       FROM event e
+       LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event
+       WHERE e.Name LIKE ? AND e.Status = 1
+       GROUP BY e.ID_Event`,
+      [`%${event}%`],
       function (err, results) {
           if (err) {
               console.error('Error executing query:', err);
               return res.status(500).send('Error executing query');
           }
+
           const formattedEvents = results.map(event => ({
               ...event,
               Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
-              End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
+              End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+              Participant_Count: event.Participant_Count 
           }));
 
           if (formattedEvents.length === 0) {
               req.flash('error_msg', `Không tìm thấy sự kiện "${event}" nào.`);
           }
 
-          res.render('search', { event: formattedEvents, session: req.session, eventQuery: event,  notify: req.flash('error_msg')  });
+          res.render('search', { event: formattedEvents, session: req.session, eventQuery: event, notify: req.flash('error_msg') });
       }
   );
 };
+
 
 //Chứng thực
 function isAuthenticated(req, res, next) {
@@ -358,6 +415,7 @@ function isAuthenticated(req, res, next) {
     }
 }
 
+//Danh sách các sự kiện đã tham gia
 const Participants = async (req, res) => {
   if (!req.session.user) {
       return res.redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
@@ -401,8 +459,7 @@ const Participants = async (req, res) => {
   }
 };
 
-
-
+//Gửi mail
 const sendRegistrationEmail = async (userEmail, eventDetails) => {
 //   if (!req.session.user) {
 //     return res.redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
@@ -431,15 +488,14 @@ const sendRegistrationEmail = async (userEmail, eventDetails) => {
       subject: 'Xác nhận đăng ký sự kiện thành công',
       html: `
       <h2>Chào bạn,</h2>
-      <p>Cảm ơn bạn đã đăng ký thành công sự kiện <strong>${eventDetails.Name}</strong> trên hệ thống của chúng tôi. Chúng tôi rất vui mừng được đón tiếp bạn tại sự kiện.</p>
+      <p>Cảm ơn bạn đã đăng ký thành công sự kiện <strong>${eventDetails.eventName}</strong> trên hệ thống của chúng tôi. Chúng tôi rất vui mừng được đón tiếp bạn tại sự kiện.</p>
       <h3>Thông tin chi tiết sự kiện:</h3>
       <ul>
-          <li><strong>Tên sự kiện:</strong> ${eventDetails.Name}</li>
-          <li><strong>Thời gian bắt đầu:</strong> ${eventDetails.Start_time}</li>
-          <li><strong>Thời gian kết thúc:</strong> ${eventDetails.End_time}</li>
-          <li><strong>Địa điểm:</strong> ${eventDetails.Location}</li>
-          <li><strong>Mô tả:</strong> ${eventDetails.Description}</li>
-          <li><strong>ID Sự kiện:</strong> ${eventDetails.ID_Event}</li>
+          <li><strong>Tên sự kiện:</strong> ${eventDetails.eventName}</li>
+          <li><strong>Thời gian bắt đầu:</strong> ${eventDetails.startTime}</li>
+          <li><strong>Thời gian kết thúc:</strong> ${eventDetails.endTime}</li>
+          <li><strong>Địa điểm:</strong> ${eventDetails.location}</li>
+          <li><strong>Mô tả:</strong> ${eventDetails.description}</li>
       </ul>
       <p>Chúng tôi hy vọng bạn sẽ có một trải nghiệm tuyệt vời tại sự kiện. Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua email này.</p>
       <p>Trân trọng,</p>
@@ -454,34 +510,41 @@ const sendRegistrationEmail = async (userEmail, eventDetails) => {
   }
 };
 
+//Tìm kiếm sự kiện theo loại sự kiện
 const searchEventbyType = async (req, res) => {
-  if (req.session.user == null) {
-    return res.redirect('/login');
-  }
+  // if (req.session.user == null) {
+  //   return res.redirect('/login');
+  // }
 
-  let {event_type} = req.query;  // Lấy dữ liệu từ query khi dùng GET method
-  
- 
-    await con.query(
-      'SELECT * FROM `event` WHERE ID_type = ? AND status = 1', [event_type],
-      function (err, results) {
-        if (err) {
-            console.error('Error executing query:', err);
-            return res.status(500).send('Error executing query');
-        }
-        const formattedEvents = results.map(event_type => ({
-            ...event_type,
-            Start_time: format(new Date(event_type.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
-            End_time: format(new Date(event_type.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
-        }));
+  let { event_type } = req.query;  // Lấy dữ liệu từ query khi dùng GET method
 
-        if (formattedEvents.length === 0) {
-            req.flash('error_msg', 'Không tìm thấy sự kiện nào.');
-        }
+  await con.query(
+    `SELECT e.*, COUNT(ep.Email) AS Participant_Count
+     FROM event e
+     LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event
+     WHERE e.ID_type = ? AND e.status = 1
+     GROUP BY e.ID_Event`,  // Thêm GROUP BY để tính toán số lượng người tham gia cho từng sự kiện
+    [event_type],
+    function (err, results) {
+      if (err) {
+        console.error('Error executing query:', err);
+        return res.status(500).send('Error executing query');
+      }
 
-        res.render('searchbyType', { event: formattedEvents, session: req.session, eventQuery: event_type, notify: req.flash('error_msg') });
+      const formattedEvents = results.map(event => ({
+        ...event,
+        Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+        End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+        Participant_Count: event.Participant_Count // Thêm Participant_Count vào kết quả
+      }));
+
+      if (formattedEvents.length === 0) {
+        req.flash('error_msg', 'Không tìm thấy sự kiện nào.');
+      }
+
+      res.render('searchbyType', { event: formattedEvents, session: req.session, eventQuery: event_type, notify: req.flash('error_msg') });
     }
-    );
+  );
 };
 
 
