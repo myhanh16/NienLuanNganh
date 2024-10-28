@@ -4,7 +4,7 @@ const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "event"
+    database: "event_manager"
 });
 
 module.exports = con;

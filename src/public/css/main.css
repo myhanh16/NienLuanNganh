@@ -4,7 +4,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-size: 25px;
+    font-size: 20px;
     font-family: 'Roboto';
 }
 
@@ -15,6 +15,8 @@
     display: flex;
     justify-content: space-between; /* Căn các phần tử thành hai bên */
     align-items: center;
+    border-bottom: 1px solid black;
+
 }
 
 /* Container cho các liên kết */
@@ -278,10 +280,30 @@
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Hiệu ứng khi hover */
 }
 
+.edit-delete-icons, .delete-check-icons {
+    position: absolute;
+    bottom: 10px;
+    left: 25px;
+    font-size: 25px;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.edit-delete-icons a, .delete-check-icons a {
+    color: #333; 
+    text-decoration: none; 
+    font-size: 25px; 
+}
+
+.edit-delete-icons a:hover, .delete-check-icons .account-icon:hover {
+    color: #007bff; 
+}
+
 .max p i{
     position: absolute;
     bottom: 10px;
-    right: 50px;
+    right: 100px;
     font-size: 16px;
     color: #333;
     display: flex;
@@ -329,9 +351,16 @@
 /* Giá sản phẩm */
 .product-item p, .event-item p {
     
-    font-size: 16px;
-    color: #3498db; /* Màu sắc cho giá sản phẩm */
-    font-weight: bold;
+    /* font-size: 16px;
+    color: black; 
+    font-weight: bold; */
+    display: flex; /* Sử dụng Flexbox để căn chỉnh */
+    justify-content: space-between; /* Căn chỉnh không gian giữa các phần tử */
+    margin: 5px 0;
+}
+
+.product-item p span {
+    flex: 1; /* Chiếm toàn bộ chiều rộng */
 }
 
 /* Hiệu ứng khi hover sản phẩm */
@@ -656,7 +685,7 @@ h1, h3 {
     height: auto;
     margin: 0;
     font-size: 1.5em;
-    border: 1px dotted black;
+    /* border: 1px dotted black; */
     margin-top: 5px;
     display: inline-block; /* Đảm bảo h1 chỉ chiếm không gian cần thiết */
     padding: 3px;
@@ -666,7 +695,7 @@ h4 {
     text-align: center;
     font-size: 30px ;
     margin-bottom: 10px;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 
@@ -845,3 +874,58 @@ h4 {
 }
 
 
+/* -------------ADMIN------------------- */
+.event-management {
+    padding: 20px;
+    background-color: #f8f9fa; /* Màu nền nhẹ */
+}
+
+.event-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    border-bottom: 2px dashed #007bff; /* Đường viền dưới */
+}
+
+.event-tab {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.event-tab:hover {
+    background-color: #e9ecef; /* Màu nền khi hover */
+}
+
+.event-tab.active {
+    border-bottom: 2px solid #007bff; /* Đường viền dưới cho tab đang active */
+    color: #000; /* Màu chữ cho tab active */
+}
+
+
+/* -------------Form Nhập Lý Do Không Duyệt Sự Kiện------------- */
+.modal {
+    display: none; /* Ẩn modal khi chưa cần */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 30%;
+    border-radius: 8px;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}

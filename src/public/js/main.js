@@ -199,3 +199,27 @@ document.getElementById('event-type').addEventListener('change', function() {
         window.location.href = `/searchbyType?event_type=${eventType}`;
     }
 });
+
+
+// Lí do không duyệt sự kiện
+function showModal(eventId) {
+    // Hiển thị modal
+    document.getElementById("disapproveModal").style.display = "block";
+    
+    // Cập nhật action cho form
+    const form = document.getElementById("disapproveForm");
+    form.action = `/disapproved/${eventId}`; // Cập nhật URL hành động
+}
+
+function closeModal() {
+    document.getElementById("disapproveModal").style.display = "none";
+}
+
+// Đóng modal khi nhấn bên ngoài
+window.onclick = function(event) {
+    const modal = document.getElementById("disapproveModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+

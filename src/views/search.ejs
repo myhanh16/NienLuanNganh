@@ -10,61 +10,110 @@
 </head>
 <body>
 
-    <header class="header">
-        <!-- Load an icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        <div class="navbar">
-            <a href="/home" class="logo">
-                <img src="/img/logo.png" alt="Logo">
-            </a>
-            <div class="links">
-                <a class="active" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a class="" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
-                <!-- <div class="dropdown">
-                    <p class="dropbtn">Tạo Sự Kiện
-                      <i class="fa fa-fw fa-edit"></i>
-                    </p>
-                    <div class="dropdown-content">
-                      <a href="/create" class="">Tạo Sự Kiện</a>
-                      <a href="/listevent">Danh Sách Sự Kiện</a>
-                      <a href="#">Quản Lý Người Tham Gia</a>
-                    </div>
-                  </div> -->
-                <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
-                <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
-                <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
-                <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
-                <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
-                <% if (session.user) { %>
-                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
-                <% } else { %>
-                    <div class="dropdown">
-                        <p class="dropbtn">Đăng Nhập
-                          <i class="fa fa-caret-down"></i>
+    <% if (session.user && session.user.admin === 1) { %>
+        <!-- Hiển thị header admin -->
+        <header class="header">
+            <!-- Load an icon library -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+            <div class="navbar">
+                <a href="/homeadmin" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                </a>
+                <div class="links">
+                    <a class="active" href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                    <a href="/browse_event" class=""><i class="fa fa-fw fa-check-square"></i>Duyệt Sự Kiện</a>
+                    <a href="/"><i class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
+                    <!-- <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>  -->
+                    <% if (session.user) { %>
+                        <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+                    <% } else { %>
+                        <div class="dropdown">
+                            <p class="dropbtn">Đăng Nhập
+                              <i class="fa fa-caret-down"></i>
+                            </p>
+                            <div class="dropdown-content">
+                              <a href="/login">Đăng Nhập</a>
+                              <a href="/register">Đăng Ký</a>
+                            </div>
+                          </div>
+                    <% } %>
+                </div>
+                
+                <div class="account-icon-container">
+                    <% if (session.user) { %>
+                        <i class="fa fa-fw fa-user-circle account-icon">
+                            <p class="username"><%= session.user.UserName %></p>
+                        </i>
+                    <% } else { %>
+                        <i class="fa fa-fw fa-user-circle account-icon">
+                            <p class="username">Tài Khoản</p>
+                        </i>
+                    <% } %>
+                </div>
+                
+            </div>
+        </header>
+    <% } else { %>
+        <!-- Hiển thị header người dùng bình thường -->
+        <header class="header">
+            <!-- Load an icon library -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+            <div class="navbar">
+                <a href="/home" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                </a>
+                <div class="links">
+                    <a class="active" href="/home"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                    <a class="" href="/create" ><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                    
+                    <!-- <div class="dropdown">
+                        <p class="dropbtn">Tạo Sự Kiện
+                          <i class="fa fa-fw fa-edit"></i>
                         </p>
                         <div class="dropdown-content">
-                          <a href="/login">Đăng Nhập</a>
-                          <a href="/register">Đăng Ký</a>
+                          <a href="/create" class="">Tạo Sự Kiện</a>
+                          <a href="/listevent">Danh Sách Sự Kiện</a>
+                          <a href="#">Quản Lý Người Tham Gia</a>
                         </div>
-                      </div>
-                <% } %>
+                      </div> -->
+                    <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                    <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                    <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
+                    <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
+                    <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
+                    <% if (session.user) { %>
+                        <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+                    <% } else { %>
+                        <div class="dropdown">
+                            <p class="dropbtn">Đăng Nhập
+                              <i class="fa fa-caret-down"></i>
+                            </p>
+                            <div class="dropdown-content">
+                              <a href="/login">Đăng Nhập</a>
+                              <a href="/register">Đăng Ký</a>
+                            </div>
+                          </div>
+                    <% } %>
+                </div>
+                
+                <div class="account-icon-container">
+                    <% if (session.user) { %>
+                        <i class="fa fa-fw fa-user-circle account-icon">
+                            <p class="username"><%= session.user.UserName %></p>
+                        </i>
+                    <% } else { %>
+                        <i class="fa fa-fw fa-user-circle account-icon">
+                            <p class="username">Tài Khoản</p>
+                        </i>
+                    <% } %>
+                </div>
+                
             </div>
-            
-            <div class="account-icon-container">
-                <% if (session.user) { %>
-                    <i class="fa fa-fw fa-user-circle account-icon">
-                        <p class="username"><%= session.user.UserName %></p>
-                    </i>
-                <% } else { %>
-                    <i class="fa fa-fw fa-user-circle account-icon">
-                        <p class="username">Tài Khoản</p>
-                    </i>
-                <% } %>
-            </div>
-            
-        </div>
-    </header>
+        </header>
+    <% } %>
+    
 
     <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho: "<%= eventQuery %>"</h2>
     <!-- Search Results -->
@@ -78,10 +127,10 @@
                         </div>
                         <img src="<%= ev.Image_URL %>" alt="Event Image">
                         <h3><%= ev.Name %></h3>
-                        <p>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></p>
-                        <p>Địa điểm: <%= ev.Location %></p>
-                        <p>Giá vào cổng: <%= ev.Price %></p>
-                        <p>Chi tiết: <%= ev.Description %></p>
+                        <p>Thời gian:<div style="color: gray;"><%= ev.Start_time %> - <%= ev.End_time %></div></p>
+                <p>Địa điểm: <div style="color: gray;"><%= ev.Location %></div></p>
+                <p>Giá vào cổng:<div style="color: gray;"><%= ev.Price %></div></p>
+                <p>Chi tiết:<div style="color: gray;"><%= ev.Description %></div></p>
                         <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
                         <div class="max">
                             <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>

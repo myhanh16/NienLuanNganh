@@ -65,12 +65,12 @@
     </header>
 
     <% if (notify.length > 0) { %>
-        <h4>Danh Sách Các Sự Kiện Của <%= session.user.UserName %> Đã Đăng Ký</h4>
+        <h4>Danh Sách Các Sự Kiện Của <%= session.user.UserName %> Đã Tham Gia</h4>
         <div class="alert alert-success" style="color: red; text-align:center">
             <%= notify[0] %>
         </div>
     <% } else { %>
-    <h4>Danh Sách Các Sự Kiện Của <%= session.user.UserName %> Đã Đăng Ký</h4>
+    <h4>Danh Sách Các Sự Kiện Của <%= session.user.UserName %> Đã Tham Gia</h4>
     <div class="product-grid">
         <% event.forEach(function(ev) { %>
             <div class="product-item">
@@ -79,10 +79,10 @@
                 </div> -->
                 <img src="<%= ev.Image_URL %>" alt="Event Image">
                 <h3><%= ev.Name %></h3>
-                <p>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></p>
-                <p>Địa điểm: <%= ev.Location %></p>
-                <p>Giá vào cổng: <%= ev.Price %></p>
-                <p>Chi tiết: <%= ev.Description %></p>
+                <p>Thời gian:<div style="color: gray;"><%= ev.Start_time %> - <%= ev.End_time %></div></p>
+                <p>Địa điểm: <div style="color: gray;"><%= ev.Location %></div></p>
+                <p>Giá vào cổng:<div style="color: gray;"><%= ev.Price %></div></p>
+                <p>Chi tiết:<div style="color: gray;"><%= ev.Description %></div></p>
                 <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
                 <!-- <div class="max">
                     <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>

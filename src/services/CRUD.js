@@ -26,7 +26,14 @@ const ListALLEvent = async (req, res) => {
           }));
 
           // Sử dụng res để render trang home với kết quả sự kiện
-          res.render('home', { event: formattedEvents, session: req.session });
+          //res.render('home', { event: formattedEvents, session: req.session });
+          if (req.session.user && req.session.user.admin === 1) {
+            // Nếu là admin, render trang homeadmin
+            res.render('homeadmin', { event: formattedEvents, session: req.session });
+        } else {
+            // Nếu không phải admin, render trang home
+            res.render('home', { event: formattedEvents, session: req.session });
+        }
       }
   );
 };
@@ -40,9 +47,12 @@ const Login = async (req, res) => {
             if (err) throw err;
             if (results.length > 0) {
                 req.session.user = results[0];  // Lưu thông tin user vào session
-
-               
-                res.redirect('/home');  // Chuyển hướng tới trang home
+                if(results[0].admin == 1){
+                  res.redirect('/homeadmin');  
+                }
+               else{
+                res.redirect('/home');  
+               }
             } else {
                 res.render('login', { error: 'Email hoặc mật khẩu không đúng.' });
             }
@@ -64,7 +74,7 @@ const Register = async(req, res) => {
       } else {
         // Chèn bản ghi mới vào cơ sở dữ liệu
       con.query(
-          'INSERT INTO `user`(`Email`, `Password`, `UserName`, `Phone`) VALUES (?, ?, ?, ?)', [email, password, username, phone],
+          'INSERT INTO `user`(`Email`, `Password`, `UserName`, `Phone`, `admin`) VALUES (?, ?, ?, ?, 0)', [email, password, username, phone],
           function (err, results) {
             if (err) {
               if (err.code === 'ER_DUP_ENTRY') {
@@ -170,31 +180,61 @@ const Create = async (req, res) => {
 };
 
 //Hiển thị danh sách sự kiện của người dùng nào đó sau khi đăng nhập
+// const ListEvent = async (req, res) => {
+//   // Kiểm tra xem người dùng đã đăng nhập hay chưa
+//   if (req.session.user == null) {
+//     // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
+//     return res.redirect('/login');// Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+//   }
+//   // Đã đăng nhập thì thực hiện logic tạo sự kiện
+//   const userEmail = req.session.user.Email; // Sử dụng email của người dùng đã đăng nhập nếu cần
+//   await con.query (
+//     'SELECT * FROM `event` WHERE `Email` = ? ',[userEmail],
+//         function(err, results) {
+//             if (err) throw err;
+            
+//             const formattedEvents = results.map(event => ({
+//                 ...event,
+//                 Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+//                 End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
+//             }));
+//             const notify = req.flash('success_msg');
+//             // Sử dụng res để render trang home với kết quả sự kiện
+//             res.render('listevent', { event: formattedEvents, session: req.session, notify: notify });
+//         }
+//   );
+
+// }
 const ListEvent = async (req, res) => {
   // Kiểm tra xem người dùng đã đăng nhập hay chưa
   if (req.session.user == null) {
-    // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
-    return res.redirect('/login');// Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+    return res.redirect('/login'); // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
   }
-  // Đã đăng nhập thì thực hiện logic tạo sự kiện
+  
   const userEmail = req.session.user.Email; // Sử dụng email của người dùng đã đăng nhập nếu cần
-  await con.query (
-    'SELECT * FROM `event` WHERE `Email` = ? ',[userEmail],
-        function(err, results) {
-            if (err) throw err;
-            
-            const formattedEvents = results.map(event => ({
-                ...event,
-                Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
-                End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi })
-            }));
-            const notify = req.flash('success_msg');
-            // Sử dụng res để render trang home với kết quả sự kiện
-            res.render('listevent', { event: formattedEvents, session: req.session, notify: notify });
-        }
-  );
 
+  // Câu truy vấn SQL để lấy danh sách sự kiện, số lượng người tham gia và lý do không duyệt (nếu có)
+  await con.query(
+    `SELECT e.*, COUNT(ep.Email) AS Participant_Count, CASE WHEN e.status = 2 THEN rr.Reason ELSE NULL END AS Reason FROM event e LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event LEFT JOIN rejectionreason rr ON e.ID_Event = rr.ID_Event WHERE e.Email = ? GROUP BY e.ID_Event`,
+    [userEmail],
+    function(err, results) {
+      if (err) throw err;
+      
+      // Định dạng lại thời gian bắt đầu và kết thúc
+      const formattedEvents = results.map(event => ({
+        ...event,
+        Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+        End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+      }));
+
+      const notify = req.flash('success_msg');
+      // Sử dụng res để render trang listevent với kết quả sự kiện
+      res.render('listevent', { event: formattedEvents, session: req.session, notify: notify });
+    }
+  );
 }
+
+
 
 //đăng kí tham gia sự kiện
 const RegisterEvent = async (req, res) => {

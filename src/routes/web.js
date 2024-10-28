@@ -4,10 +4,12 @@ const {getHome, login, register, logout, create, listevent, registerevent,
     getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype} = require('../controllers/homeController');
 const session = require('express-session');
 const { route } = require('express/lib/application');
+const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove} = require('../controllers/admin')
 
 //Khai báo route
 router.get('/home', getHome);
 
+router.get('/homeadmin', getHome);
 
 // Route để hiển thị form đăng nhập
 router.get('/login', (req, res) => {
@@ -75,6 +77,19 @@ router.post('/sendEmail', sendEmail, (req, res) => {
 });
 
 router.get('/searchbyType', searcheventbytype);
+
+
+// ------------------ADMIN----------------
+router.get('/all_event', listEvent);
+router.get('/browse_event', (req, res) => {
+    res.render('browse_event', { session: req.session });
+});
+router.get('/pending', getpendingEvents);
+router.get('/approved', getapprovedEvents);
+router.post('/approved/:ID_Event', ApproveEvent);
+router.post('/disapproved/:ID_Event', disapprove);
+router.get('/disapproved', getdisapprove);
+
 
 
 

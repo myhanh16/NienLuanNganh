@@ -84,56 +84,42 @@
                 <%= notify[0] %>
             </div>
         <% } %>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Tên Sự Kiện</th>
-                    <th>Thời Gian Bắt Đầu</th>
-                    <th>Thời Gian Kết Thúc</th>
-                    <th>Địa Điểm</th>
-                    <th>Hình ảnh</th>
-                    <th>Chi Tiết</th>
-                    <th>Loại Sự Kiện</th>
-                    <th>Giá</th>
-                    <th>Sức chứa</th>
-                    <th>Trạng Thái</th>
-                    <th>Chỉnh Sửa</th>
-                    <th>Xóa</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% event.forEach( function(ev) { %>
-                    <tr>
-                        <td><%= ev.Name %></td>
-                        <td><%= ev.Start_time %></td>
-                        <td><%= ev.End_time %></td>
-                        <td><%= ev.Location %></td>
-                        <td><img src="<%= ev.Image_URL %>" alt="Event Image"></td>
-                        <td><%= ev.Description %></td>
-                        <td>
-                            <% if (ev.ID_type === 1) { %>
-                                Âm Nhạc
-                            <% } else if(ev.ID_type === 2) { %>
-                                Hoạt Động Nhóm
-                            <% } else { %>
-                                Chương Trình Trò Chuyện
-                            <% } %>
-                        </td>
-                        <td><%= ev.Price %></td>
-                        <td><%= ev.Max_Participants%> Người</td>
-                        <td>
-                            <% if (ev.status === 1) { %>
-                                Đã Duyệt
-                            <% } else { %>
-                                Chưa Duyệt
-                            <% } %>
-                        </td>
-                        <td><a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit"></i></a></td>
-                        <td><a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close"></i></a></td>
-                    </tr>
-                <% })%>
-            </tbody>
-        </table>
+        <div class="product-grid">
+            <% event.forEach(function(ev) { %>
+                <div class="product-item">
+                    <img src="<%= ev.Image_URL %>" alt="Event Image">
+                    <h3><%= ev.Name %></h3>
+                    <p>Thời gian:<div style="color: gray;"><%= ev.Start_time %> - <%= ev.End_time %></div></p>
+                <p>Địa điểm: <div style="color: gray;"><%= ev.Location %></div></p>
+                <p>Giá vào cổng:<div style="color: gray;"><%= ev.Price %></div></p>
+                <p>Chi tiết:<div style="color: gray;"><%= ev.Description %></div></p>
+                    <p >Trạng thái: 
+                        <% if (ev.status === 1) { %>
+                            Đã Duyệt
+                        <% } else if (ev.status === 0) { %>
+                            Chưa Duyệt
+                        <% } else if (ev.status === 2) { %>
+                            Không Duyệt
+                        <% } %>
+                    </p>
+                    <% if (ev.Reason  && ev.status == 2) { %>
+                        <p style="color: red;">Lý do: <%= ev.Reason %></p>
+                    <% }%><br>
+                    <div class="max">
+                        <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants - (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
+                    </div>
+                    <div class="edit-delete-icons">
+                        
+                        <% if (ev.Reason  && ev.status == 2) { %>
+                            <a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
+                        <% } else {%>
+                            <a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit" style="color: green;"></i></a>
+                            <a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
+                        <% }%>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
     </div>
     
     <script src="/js/main.js"></script>
