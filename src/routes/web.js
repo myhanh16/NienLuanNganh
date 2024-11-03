@@ -4,7 +4,7 @@ const {getHome, login, register, logout, create, listevent, registerevent,
     getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype} = require('../controllers/homeController');
 const session = require('express-session');
 const { route } = require('express/lib/application');
-const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove} = require('../controllers/admin')
+const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove, listuser} = require('../controllers/admin')
 
 //Khai báo route
 router.get('/home', getHome);
@@ -57,6 +57,7 @@ router.get('/edit', function (req, res) {
 });
   
 router.post('/edit', edit);
+//router.post('/edit', upload.single('Image_URL'), edit);
 
 
 router.get('/edit/:ID_Event', getevent);
@@ -89,7 +90,7 @@ router.get('/approved', getapprovedEvents);
 router.post('/approved/:ID_Event', ApproveEvent);
 router.post('/disapproved/:ID_Event', disapprove);
 router.get('/disapproved', getdisapprove);
-
+router.get('/userList', listuser);
 
 
 

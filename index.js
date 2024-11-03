@@ -8,9 +8,13 @@ const flash = require('connect-flash');
 const configViewEngine = require ('./src/config/viewEngine')
 const webRouter = require('./src/routes/web');
 const con = require('./src/config/database')
+const fileupload = require("express-fileupload");
 
 const hostname = process.env.HOSTNAME;
 const port = process.env.PORT || 3000;
+
+
+
 
 // Cấu hình session
 app.use(session({
@@ -21,6 +25,7 @@ app.use(session({
 }));
 
 app.use(flash());
+app.use(fileupload());
 
 //config req.body
 app.use(express.json()) // for json
@@ -39,6 +44,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+
+// const fileUpload = require('express-fileupload');
+// app.use(fileUpload());
 
 //config template 
 configViewEngine(app);

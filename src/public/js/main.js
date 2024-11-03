@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 endTime.textContent = formatDateTime(endTime.textContent);
             }
         });
-    });
+});
 
 
 
@@ -102,10 +102,149 @@ function previewImage(event) {
 
 
 // Hàm để xử lý đăng ký tham gia sự kiện
-function registerEvent(eventId) {
+// function registerEvent(eventId) {
+//     console.log(`Đăng ký sự kiện với ID: ${eventId}`);
+
+//     if (confirm(`Bạn có muốn đăng ký sự kiện ${eventId} này không?`)) {
+//         fetch(`/registerevent/${eventId}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-Requested-With': 'XMLHttpRequest'
+//             },
+//             body: JSON.stringify({ eventId: eventId })
+//         })
+//         .then(response => {
+//             if (response.status === 401) {
+//                 if (confirm('Bạn cần đăng nhập để đăng ký sự kiện này. Bạn có muốn đăng nhập không?')) {
+//                     window.location.href = '/login';
+//                 }
+//                 return;
+//             }
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             if (!data) return;
+
+//             if (data.success) {
+//                 alert(data.message);
+
+//                 // Lấy thông tin sự kiện từ phản hồi và gửi email
+//                 const eventDetails = {
+//                     eventName: data.event.Name,
+//                     startTime: data.event.Start_time,
+//                     endTime: data.event.End_time,
+//                     location: data.event.Location,
+//                     description: data.event.Description,
+//                     // eventId: eventId
+//                 };
+//                 console.log('Event details:', eventDetails);
+
+//                 // Gửi email qua route sendEmail
+//                 fetch('/sendEmail', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     },
+//                     body: JSON.stringify({
+//                         userEmail: data.Email,
+//                         eventDetails: eventDetails
+//                     })
+//                 })
+//                 .then(res => res.text())
+//                 .then(msg => console.log(msg))
+//                 .catch(err => console.error('Lỗi khi gửi email:', err));
+//             } else {
+//                 alert(data.message || 'Đã xảy ra lỗi. Vui lòng thử lại');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Lỗi:', error);
+//             alert('Đã xảy ra lỗi. Vui lòng thử lại!!!');
+//         });
+//     }
+// }
+
+// function registerEvent(eventId) {
+//     console.log(`Đăng ký sự kiện với ID: ${eventId}`);
+
+//     if (confirm(`Bạn có muốn đăng ký sự kiện ${eventId} này không?`)) {
+//         fetch(`/registerevent/${eventId}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-Requested-With': 'XMLHttpRequest'
+//             },
+//             body: JSON.stringify({ eventId: eventId })
+//         })
+//         .then(response => {
+//             if (response.status === 401) {
+//                 if (confirm('Bạn cần đăng nhập để đăng ký sự kiện này. Bạn có muốn đăng nhập không?')) {
+//                     window.location.href = '/login';
+//                 }
+//                 return;
+//             } else if (response.status === 403) { 
+//                 return response.json().then(data => {
+//                     alert(data.message); // Thông báo: "Người tạo không thể đăng ký sự kiện của chính mình."
+//                 });
+//             } else if (response.status === 400) { 
+//                 return response.json().then(data => {
+//                     alert(data.message); // Thông báo: "Bạn đã đăng ký sự kiện này rồi."
+//                 });
+//             } else if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             if (!data) return;
+
+//             if (data.success) {
+//                 alert(data.message);
+
+//                 // Lấy thông tin sự kiện từ phản hồi và gửi email
+//                 const eventDetails = {
+//                     eventName: data.event.Name,
+//                     startTime: data.event.Start_time,
+//                     endTime: data.event.End_time,
+//                     location: data.event.Location,
+//                     description: data.event.Description,
+//                 };
+//                 console.log('Event details:', eventDetails);
+
+//                 // Gửi email qua route sendEmail
+//                 fetch('/sendEmail', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     },
+//                     body: JSON.stringify({
+//                         userEmail: data.Email,
+//                         eventDetails: eventDetails
+//                     })
+//                 })
+//                 .then(res => res.text())
+//                 .then(msg => console.log(msg))
+//                 .catch(err => console.error('Lỗi khi gửi email:', err));
+//             } else {
+//                 alert(data.message || 'Đã xảy ra lỗi. Vui lòng thử lại');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Lỗi:', error);
+//             alert('Đã xảy ra lỗi. Vui lòng thử lại!!!');
+//         });
+//     }
+// }
+
+function registerEvent(eventId, eventName) {
     console.log(`Đăng ký sự kiện với ID: ${eventId}`);
 
-    if (confirm(`Bạn có muốn đăng ký sự kiện ${eventId} này không?`)) {
+    // Use eventName for confirmation message
+    if (confirm(`Bạn có muốn đăng ký sự kiện "${eventName}" không?`)) {
         fetch(`/registerevent/${eventId}`, {
             method: 'POST',
             headers: {
@@ -120,8 +259,15 @@ function registerEvent(eventId) {
                     window.location.href = '/login';
                 }
                 return;
-            }
-            if (!response.ok) {
+            } else if (response.status === 403) { 
+                return response.json().then(data => {
+                    alert(data.message); // Thông báo: "Người tạo không thể đăng ký sự kiện của chính mình."
+                });
+            } else if (response.status === 400) { 
+                return response.json().then(data => {
+                    alert(data.message); // Thông báo: "Bạn đã đăng ký sự kiện này rồi."
+                });
+            } else if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
@@ -139,7 +285,6 @@ function registerEvent(eventId) {
                     endTime: data.event.End_time,
                     location: data.event.Location,
                     description: data.event.Description,
-                    // eventId: eventId
                 };
                 console.log('Event details:', eventDetails);
 
@@ -167,7 +312,6 @@ function registerEvent(eventId) {
         });
     }
 }
-
 
 
 
@@ -208,7 +352,7 @@ function showModal(eventId) {
     
     // Cập nhật action cho form
     const form = document.getElementById("disapproveForm");
-    form.action = `/disapproved/${eventId}`; // Cập nhật URL hành động
+    form.action = `/disapproved/${eventId}`;
 }
 
 function closeModal() {
@@ -223,3 +367,7 @@ window.onclick = function(event) {
     }
 }
 
+//Hien thi thong bao hoi duyet su kien
+function confirmApproval(name) {
+    return confirm(`Bạn có chắc chắn muốn duyệt sự kiện ${name} không?`);
+}

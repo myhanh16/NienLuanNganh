@@ -3,7 +3,7 @@ const { format } = require('date-fns');
 const { vi } = require('date-fns/locale'); // Đảm bảo import đúng locale
 const con = require('../config/database');
 const CRUD = require('../services/ADMIN');
-const {  getApprovedEvents, getPendingEvents, approveEvent, ListALLEvent, disapproveEvent, getDisapprove} = require('../services/ADMIN');
+const {  getApprovedEvents, getPendingEvents, approveEvent, ListALLEvent, disapproveEvent, getDisapprove, listUser} = require('../services/ADMIN');
 
 const getapprovedEvents = async (req, res) => {
     try {
@@ -53,11 +53,20 @@ const getdisapprove = async(req, res) => {
     }
 }
 
+const listuser = async(req, res) => {
+  try{
+    await listUser(req, res);
+  } catch(error) {
+    res.status(500).send("Lỗi khi tải sự kiện");
+  }
+}
+
 module.exports = {
     getapprovedEvents,
     getpendingEvents,
     ApproveEvent,
     listEvent,
     disapprove,
-    getdisapprove
+    getdisapprove,
+    listuser
 }

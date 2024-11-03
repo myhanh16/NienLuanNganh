@@ -245,25 +245,67 @@
 }
 
 
-/* Logo */
+
+/* -------------Footer----------- */
+footer {
+    
+    background-color: rgba(78, 77, 77, 0.145); 
+    padding: 10px 0; 
+    text-align: center; 
+    border-top: 1px solid #ddd; 
+}
+
+.footer-content {
+    max-width: 600px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
+
+footer i {
+    display: inline-block;
+    vertical-align: middle; 
+    margin-right: 5px; 
+    color: #333; 
+}
+
+footer p {
+    display: inline-block;
+    margin: 5px 0;
+    color: #333; 
+}
+
+
+footer a {
+    color: #007bff; 
+    text-decoration: none; 
+}
+
+footer a:hover {
+    text-decoration: underline; 
+}
+
+
+
+
+/*---------------- Logo---------------- */
 .navbar .logo {
-    margin-right: 20px; /* Khoảng cách giữa logo và các liên kết */
+    margin-right: 20px; 
 }
 
 .navbar .logo img {
-    height: 40px; /* Điều chỉnh kích thước logo theo ý muốn */
-    vertical-align: middle; /* Căn chỉnh logo với các phần tử khác */
+    height: 40px; 
+    vertical-align: middle; 
 }
 
 
 /* Container cho khung lưới sản phẩm */
 .product-grid {
     display: grid;
-    /* grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); Tự động điền cột với độ rộng tối thiểu 250px */
-    grid-template-columns: repeat(3, 1fr); /* 3 cột, mỗi cột chiếm 1 phần */
-    gap: 20px; /* Khoảng cách giữa các sản phẩm */
+   
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px; 
     padding: 20px;
-    background-color: #f5f5f5; /* Màu nền của khung lưới */
+    background-color: rgb(215, 209, 209); 
 }
 
 /* Mỗi sản phẩm trong lưới */
@@ -280,9 +322,9 @@
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Hiệu ứng khi hover */
 }
 
-.edit-delete-icons, .delete-check-icons {
+.edit-delete-icons, .delete-check-icons{
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     left: 25px;
     font-size: 25px;
     color: black;
@@ -303,7 +345,7 @@
 .max p i{
     position: absolute;
     bottom: 10px;
-    right: 100px;
+    right: 80px;
     font-size: 16px;
     color: #333;
     display: flex;
@@ -360,38 +402,44 @@
 }
 
 .product-item p span {
-    flex: 1; /* Chiếm toàn bộ chiều rộng */
+    flex: 1;
+    color: #333;
+    font-weight: 500; 
+    margin: 0 10px; 
+    font-size: 14px; 
 }
+
+
 
 /* Hiệu ứng khi hover sản phẩm */
 .product-item:hover {
-    transform: scale(1.03); /* Phóng to sản phẩm khi hover */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Tăng bóng đổ khi hover */
+    transform: scale(1.03); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
 }
 
 
 /* CSS cho filter-container */
 .filter-container {
-    margin: 20px auto; /* Khoảng cách trên và dưới, căn giữa */
-    width: 80%; /* Đặt chiều rộng của filter-container */
-    max-width: 800px; /* Đặt chiều rộng tối đa */
-    padding: 10px; /* Padding bên trong */
-    background-color: #f9f9f9; /* Màu nền */
-    border-radius: 8px; /* Bo góc */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng đổ */
-    text-align: center; /* Căn giữa nội dung */
+    margin: 20px auto; 
+    width: 80%; 
+    max-width: 800px; 
+    padding: 10px;
+    background-color: rgb(215, 209, 209); 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    text-align: center; 
 }
 
 /* CSS cho select */
 .filter-container select {
-    font-size: 16px; /* Kích thước chữ */
-    padding: 10px; /* Padding */
-    border: 1px solid #ddd; /* Viền */
-    border-radius: 4px; /* Bo góc */
-    background-color: #fff; /* Màu nền */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bóng đổ */
-    cursor: pointer; /* Con trỏ khi hover */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển đổi */
+    font-size: 16px; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    background-color: #fff; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    cursor: pointer; 
+    transition: border-color 0.3s, box-shadow 0.3s; 
 }
 
 .filter-container select:focus {
@@ -401,7 +449,7 @@
 
 /* CSS cho option */
 .filter-container option {
-    padding: 10px; /* Padding cho các option */
+    padding: 10px; 
 }
 
 
@@ -571,8 +619,8 @@ p a:hover {
 }
   
 .dropdown-content a:hover {
-    background-color: inherit; /* Không thay đổi màu nền khi hover */
-    color: black; /* Giữ nguyên màu chữ */
+    background-color: inherit; 
+    color: black; 
 }
   
   /* Show the dropdown menu when the user moves the mouse over the dropdown button */
@@ -581,11 +629,11 @@ p a:hover {
 }
 .dropdown .dropbtn:hover {
     text-decoration: underline;
-    background-color: inherit; /* Giữ nguyên màu nền */
-    color: black; /* Giữ nguyên màu chữ */
+    background-color: inherit; 
+    color: black; 
 }
 
-/* Định dạng bảng */
+/*----------------- Định dạng bảng ----------------------*/
 .table {
     width: 100%;
     margin: 20px 0;
@@ -596,15 +644,15 @@ p a:hover {
 /* CSS Table */
 
 .table {
-    margin-left: 20%; /* Để phù hợp với chiều rộng của menu bên trái */
-    margin-top: 20px; /* Khoảng cách từ đầu trang hoặc menu */
-    width: 75%; /* Điều chỉnh chiều rộng của bảng cho phù hợp */
-    text-align: center; /* Căn giữa nội dung bảng */
+    margin-left: 20%; 
+    margin-top: 20px; 
+    width: 75%; 
+    text-align: center; 
 }
 
 /* CSS cho bảng */
 table {
-    width: 100%; /* Chiều rộng của bảng theo khung chứa */
+    width: 100%; 
     border-collapse: collapse;
     margin: 0 auto; /* Căn giữa bảng trong khung chứa */
     font-size: 16px;

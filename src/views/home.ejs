@@ -90,14 +90,16 @@
         <% event.forEach(function(ev) { %>
             <div class="product-item">
                 <div class="heart-icon">
-                    <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
+                    <!-- <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i> -->
+                    <i class="fa fa-heart" id="heart-icon-<%= ev.Name %>" name="Name" onclick="registerEvent('<%= ev.ID_Event %>', '<%= ev.Name %>')" method="post"></i>
                 </div>
                 <img src="<%= ev.Image_URL %>" alt="Event Image">
                 <h3><%= ev.Name %></h3>
-                <p>Thời gian:<div style="color: gray;"><%= ev.Start_time %> - <%= ev.End_time %></div></p>
-                <p>Địa điểm: <div style="color: gray;"><%= ev.Location %></div></p>
-                <p>Giá vào cổng:<div style="color: gray;"><%= ev.Price %></div></p>
-                <p>Chi tiết:<div style="color: gray;"><%= ev.Description %></div></p>
+                <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
+                    <p><span>Địa điểm: <%= ev.Location %></span></p>
+                    <p><span>Giá vào cổng: <%= ev.Price %></span></p>
+                    <p><span>Chi tiết: <%= ev.Description %></span></p>
+                    <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
                 <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
                 <div class="max">
                     <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
@@ -107,6 +109,14 @@
     </div>
     
     <script src="/js/main.js"></script>
+    
+    <footer>
+        <h6>Liên hệ chúng tôi</h6>
+        <i class="fa fa-fw fa-whatsapp"></i>
+        <p>1900 1090</p><br>
+        <i class="fa fa-fw fa-envelope"></i>
+        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+    </footer>
     
     
 </body>

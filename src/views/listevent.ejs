@@ -89,18 +89,19 @@
                 <div class="product-item">
                     <img src="<%= ev.Image_URL %>" alt="Event Image">
                     <h3><%= ev.Name %></h3>
-                    <p>Thời gian:<div style="color: gray;"><%= ev.Start_time %> - <%= ev.End_time %></div></p>
-                <p>Địa điểm: <div style="color: gray;"><%= ev.Location %></div></p>
-                <p>Giá vào cổng:<div style="color: gray;"><%= ev.Price %></div></p>
-                <p>Chi tiết:<div style="color: gray;"><%= ev.Description %></div></p>
-                    <p >Trạng thái: 
-                        <% if (ev.status === 1) { %>
-                            Đã Duyệt
-                        <% } else if (ev.status === 0) { %>
-                            Chưa Duyệt
-                        <% } else if (ev.status === 2) { %>
-                            Không Duyệt
-                        <% } %>
+                    <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
+                    <p><span>Địa điểm: <%= ev.Location %></span></p>
+                    <p><span>Giá vào cổng: <%= ev.Price %></span></p>
+                    <p><span>Chi tiết: <%= ev.Description %></span></p>
+                    
+                    <p style="color: gray;">Trạng thái: 
+                    <% if (ev.status === 1) { %>
+                        Đã Duyệt
+                    <% } else if (ev.status === 0) { %>
+                        Chưa Duyệt
+                    <% } else if (ev.status === 2) { %>
+                        Không Duyệt
+                    <% } %>
                     </p>
                     <% if (ev.Reason  && ev.status == 2) { %>
                         <p style="color: red;">Lý do: <%= ev.Reason %></p>
@@ -124,5 +125,12 @@
     
     <script src="/js/main.js"></script>
 
+    <footer>
+        <h6>Liên hệ chúng tôi</h6>
+        <i class="fa fa-fw fa-whatsapp"></i>
+        <p>1900 1090</p><br>
+        <i class="fa fa-fw fa-envelope"></i>
+        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+    </footer>
 </body>
 </html>

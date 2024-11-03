@@ -76,11 +76,9 @@
     
 
     <div class="form-create">
-        <form action="/edit" method="post">
+        <form action="/edit" method="post" enctype="multipart/form-data">
             <fieldset>
-                <legend>Sửa Thông Tin Sự Kiện</legend>
-                  
-
+                <legend>Sửa Thông Tin Sự Kiện</legend>                
                 <div class="input-user">
                     <input type="hidden" name="eventID" value="<%= event.ID_Event%>">
                     <label>Tên sự kiện: </label>
@@ -102,7 +100,7 @@
                     <label>Chi tiết: </label>
                     <input type="text" name="description" value="<%= event.Description %>" required><br>
                     <label>Loại sự kiện: </label>
-                    <select id="event-type" name="ID_type">
+                    <select name="ID_type">
                         <option value="">Chọn loại sự kiện</option>
                         <option value="1" <%= event.ID_type == '1' ? 'selected' : '' %>>Âm nhạc</option>
                         <option value="2" <%= event.ID_type == '2' ? 'selected' : '' %>>Hoạt động nhóm</option>
@@ -110,16 +108,23 @@
                     </select><br>
 
                     <label>Giá vào cổng: </label>
-                    <input type="text" name="price" value="<%= event.Price %>" required><br>
+                    <input type="text" name="price" value="<%= event.Price %>" required>
+                    <label>Sức chứa:</label>
+                    <input type="text" name="max" value="<%= event.Max_Participants %>" required><br>
                     <input type="submit" name="submit" value="Cập nhật sự kiện">
                 </div>
             </fieldset>
         </form>
     </div>
     
-    
-    
-      
     <script src="/js/main.js"></script>
+
+    <footer>
+        <h6>Liên hệ chúng tôi</h6>
+        <i class="fa fa-fw fa-whatsapp"></i>
+        <p>1900 1090</p><br>
+        <i class="fa fa-fw fa-envelope"></i>
+        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+    </footer>
 </body>
 </html>

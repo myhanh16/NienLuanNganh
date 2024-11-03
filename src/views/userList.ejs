@@ -18,9 +18,9 @@
                 <img src="/img/logo.png" alt="Logo">
             </a>
             <div class="links">
-                <a class="active" href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                <a class="" href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
                 <a href="/browse_event" class=""><i class="fa fa-fw fa-check-square"></i>Duyệt Sự Kiện</a>
-                <a href="/userList"><i class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
+                <a href="/userList" class="active"><i class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
                 <!-- <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>  -->
                 <% if (session.user) { %>
                     <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
@@ -52,49 +52,26 @@
         </div>
     </header>
 
-    <div class="banner">
-        <img src="/img/banner.jpg" alt="Header Image">
-        <!-- Thanh tìm kiếm đặt chồng lên banner -->
-        <!-- <div class="search-container">  -->
-            <form action="/search" method="GET" class="search-container">
-                <input type="text" name="event" placeholder="Nhập sự kiện cần tìm" id="event">
-                <button  type="submit"><i class="fa fa-fw fa-search"></i></button>
-            </form>
-        <!-- </div> -->
-    </div>
-
-    <div class="filter-container">
-        <select id="event-type" name="event_type">
-            <option value="">Chọn loại sự kiện</option>
-            <option value="1">Âm nhạc</option>
-            <option value="2">Hoạt động nhóm</option>
-            <option value="3">Chương trình trò chuyện</option>
-        </select>
-    </div>
-
-    <div class="product-grid">
-        <% event.forEach(function(ev) { %>
-            <div class="product-item">
-                <!-- <div class="heart-icon">
-                    <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
-                </div> -->
-                <img src="<%= ev.Image_URL %>" alt="Event Image">
-                <h3><%= ev.Name %></h3>
-                <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
-                    <p><span>Địa điểm: <%= ev.Location %></span></p>
-                    <p><span>Giá vào cổng: <%= ev.Price %></span></p>
-                    <p><span>Chi tiết: <%= ev.Description %></span></p>
-                    <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
-                <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
-                <div class="max">
-                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
-                </div>
-            </div>
-        <% }); %>
-    </div>
+    <h4>Danh sách người dùng</h4>
+    <table class="table" border="1">
+        <thead>
+            <th>Email</th>
+            <th>Họ tên người dùng</th>
+            <th>Số điện thoại</th>
+        </thead>
+        <tbody>
+            <% user.forEach(function(u) {%>
+                <tr>
+                    <td><%= u.Email %></td>
+                    <td><%= u.UserName%></td>
+                    <td><%= u.Phone %></td>
+                </tr>
+            <% });%>
+        </tbody>
+    </table>
+    
     
     <script src="/js/main.js"></script>
-    
     <footer>
         <h6>Liên hệ chúng tôi</h6>
         <i class="fa fa-fw fa-whatsapp"></i>
@@ -102,5 +79,6 @@
         <i class="fa fa-fw fa-envelope"></i>
         <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
     </footer>
+    
 </body>
 </html>
