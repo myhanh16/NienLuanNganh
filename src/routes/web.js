@@ -7,7 +7,7 @@ const { route } = require('express/lib/application');
 const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove, listuser} = require('../controllers/admin')
 
 //Khai báo route
-router.get('/home', getHome);
+router.get('/', getHome);
 
 router.get('/homeadmin', getHome);
 
@@ -37,7 +37,7 @@ router.get('/logout', logout);
 //     res.render('create', { session: req.session });
 // })
 router.get('/create', isAuthenticated, (req, res) => {
-    // Hiển thị trang tạo sự kiện nếu người dùng đã đăng nhập
+
     res.render('create', { session: req.session });
 });
   

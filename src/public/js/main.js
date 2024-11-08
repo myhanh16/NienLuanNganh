@@ -327,7 +327,7 @@ function confirmDelete(eventId, eventName) {
 }
 
 function checkLoginStatus() {
-    // Check if the user is logged in using a server-side variable
+    
     const isLoggedIn = document.getElementById('isLoggedIn').value === 'true';
     return isLoggedIn;
 }

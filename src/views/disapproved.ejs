@@ -62,9 +62,11 @@
         </div>
     </div>
     
+    
+    
+    <% if (event.length > 0) { %>
     <div class="product-grid">
         
-        <% if (event.length > 0) { %>
             <% event.forEach(function(ev) { %>
                 <div class="product-item">
                     <img src="<%= ev.Image_URL %>" alt="Event Image">
@@ -79,12 +81,12 @@
                     </div>
                 </div>
             <% }); %>
-        <% } else { %>
-            <div class="alert alert-success" style="color: red; text-align:center">
-                Không có sự kiện nào không duyệt.
-            </div>
-        <% } %>
     </div>
+    <% } else { %>
+        <div class="alert alert-info" style="color: red; text-align: center;">
+            Không có sự kiện nào không duyệt.
+        </div>
+    <% } %>
     
     
     <script src="/js/main.js"></script>

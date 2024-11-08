@@ -376,9 +376,10 @@ footer a:hover {
 
 /* Hình ảnh sản phẩm */
 .product-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px; /* Bo góc cho hình ảnh */
+    width: 100%; /* Makes the image fill the width of the container */
+    height: 180px; /* Sets a fixed height for uniformity; adjust as needed */
+    object-fit: cover; /* Ensures images fill the area without distortion */
+    border-radius: 8px; /* Adds rounded corners */
     margin-bottom: 15px;
 }
 

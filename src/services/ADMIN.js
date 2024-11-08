@@ -321,7 +321,7 @@ const listUser = async (req, res) => {
         return res.redirect('/login');
     }
     await con.query (
-        `SELECT Email, UserName, Phone FROM user `,
+        `SELECT Email, UserName, Phone FROM user where admin = 0`,
         function (error, results) {
             if(error) throw err;
             res.render('userList', {user: results, session: req.session});

@@ -57,7 +57,7 @@ const Login = async (req, res) => {
               if (results[0].admin == 1) {
                   res.redirect('/homeadmin');
               } else {
-                  res.redirect('/home');
+                  res.redirect('/');
               }
           } else {
               res.render('login', { error: 'Email hoặc mật khẩu không đúng.' });
@@ -105,10 +105,10 @@ const Register = async (req, res) => {
 const Logout = async (req, res) => {
     req.session.destroy(err => {
         if (err) {
-          return res.redirect('/home');
+          return res.redirect('/');
         }
         res.clearCookie('connect.sid');
-        res.redirect('/home');
+        res.redirect('/');
       });
 }
 
@@ -545,19 +545,19 @@ const searchEvent = async (req, res) => {
 
 
 //Chứng thực
-function isAuthenticated(req, res, next) {
-    if (req.session && req.session.user) {
-        return next();
-    } else {
-        // Thêm thông báo khi chưa đăng nhập
-        return res.send(`
-          <script>
-            alert('Bạn cần đăng nhập trước khi tạo sự kiện.');
-            window.location.href = '/login';
-          </script>
-        `);
-    }
-}
+// function isAuthenticated(req, res, next) {
+//     if (req.session && req.session.user) {
+//         return next();
+//     } else {
+//         // Thêm thông báo khi chưa đăng nhập
+//         return res.send(`
+//           <script>
+//             alert('Bạn cần đăng nhập trước khi tạo sự kiện.');
+//             window.location.href = '/login';
+//           </script>
+//         `);
+//     }
+// }
 
 //Danh sách các sự kiện đã tham gia
 const Participants = async (req, res) => {
@@ -709,7 +709,7 @@ module.exports = {
   editEvent,
   deleteEvent,
   searchEvent,
-  isAuthenticated,
+  // isAuthenticated,
   Participants,
   sendRegistrationEmail,
   searchEventbyType
