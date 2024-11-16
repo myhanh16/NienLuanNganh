@@ -274,110 +274,77 @@ const RegisterEvent = async (req, res) => {
                   return res.status(500).json({ success: false, message: 'Lỗi truy vấn. Vui lòng thử lại sau.' });
               }
               
-              // Kiểm tra nếu results có dữ liệu
               if (results && results.length > 0) {
                   return res.status(403).json({ success: false, message: 'Người tạo không thể đăng ký sự kiện của chính mình.' });
               }
 
-              // Kiểm tra số lượng người tham gia hiện tại và số lượng tối đa
+              // Kiểm tra xem sự kiện đã diễn ra hay chưa
               con.query(
-                  `SELECT 
-                    COUNT(ep.Email) AS Participant_Count, 
-                    e.Max_Participants 
-                    FROM event e 
-                    LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event 
-                    WHERE e.ID_Event = ?
-                    GROUP BY e.ID_Event`,
+                  'SELECT Start_time, Max_Participants FROM event WHERE ID_Event = ?',
                   [eventId],
                   (err, results) => {
                       if (err) {
-                          console.error('Lỗi truy vấn số lượng người tham gia:', err);
+                          console.error('Lỗi truy vấn:', err);
                           return res.status(500).json({ success: false, message: 'Lỗi truy vấn. Vui lòng thử lại sau.' });
                       }
 
-                      
                       if (!results || results.length === 0) {
                           return res.status(404).json({ success: false, message: 'Không tìm thấy sự kiện.' });
                       }
 
-                      const participantCount = results[0].Participant_Count;
-                      const maxParticipants = results[0].Max_Participants;
+                      const event = results[0];
+                      const currentTime = new Date();
 
-                      // Kiểm tra xem sự kiện đã đầy chưa
-                      if (participantCount >= maxParticipants) {
-                          return res.status(400).json({ success: false, message: 'Sự kiện đã đầy, bạn không thể đăng ký.' });
+                      // Nếu sự kiện đã bắt đầu
+                      if (new Date(event.Start_time) <= currentTime) {
+                          return res.status(400).json({ success: false, message: 'Sự kiện đã diễn ra, bạn không thể đăng ký.' });
                       }
 
-                      // Kiểm tra nếu người dùng đã đăng ký sự kiện này
+                      // Kiểm tra số lượng người tham gia hiện tại
                       con.query(
-                          'SELECT * FROM event_participants WHERE Email = ? AND ID_Event = ?',
-                          [userEmail, eventId],
+                          `SELECT 
+                            COUNT(ep.Email) AS Participant_Count
+                            FROM event_participants ep 
+                            WHERE ep.ID_Event = ?`,
+                          [eventId],
                           (err, results) => {
                               if (err) {
-                                  console.error('Lỗi truy vấn:', err);
+                                  console.error('Lỗi truy vấn số lượng người tham gia:', err);
                                   return res.status(500).json({ success: false, message: 'Lỗi truy vấn. Vui lòng thử lại sau.' });
                               }
 
-                              // Kiểm tra nếu người dùng đã đăng ký
-                              if (results && results.length > 0) {
-                                  return res.status(400).json({ success: false, message: 'Bạn đã đăng ký sự kiện này trước đó. Mỗi tài khoản chỉ được đăng ký một lần cho mỗi sự kiện.' });
+                              const participantCount = results[0].Participant_Count;
+                              const maxParticipants = event.Max_Participants;
+
+                              if (participantCount >= maxParticipants) {
+                                  return res.status(400).json({ success: false, message: 'Sự kiện đã đầy, bạn không thể đăng ký.' });
                               }
 
-                              // Thêm người dùng vào danh sách người tham gia
+                              // Kiểm tra nếu người dùng đã đăng ký sự kiện này
                               con.query(
-                                  'INSERT INTO event_participants (Email, ID_Event) VALUES (?, ?)',
+                                  'SELECT * FROM event_participants WHERE Email = ? AND ID_Event = ?',
                                   [userEmail, eventId],
-                                  (err) => {
+                                  (err, results) => {
                                       if (err) {
-                                          console.error('Lỗi khi thêm người tham gia:', err);
-                                          return res.status(500).json({ success: false, message: 'Lỗi khi thêm người tham gia. Vui lòng thử lại sau.' });
+                                          console.error('Lỗi truy vấn:', err);
+                                          return res.status(500).json({ success: false, message: 'Lỗi truy vấn. Vui lòng thử lại sau.' });
                                       }
 
-                                      // Lấy thông tin sự kiện
+                                      if (results && results.length > 0) {
+                                          return res.status(400).json({ success: false, message: 'Bạn đã đăng ký sự kiện này trước đó.' });
+                                      }
+
+                                      // Thêm người dùng vào danh sách người tham gia
                                       con.query(
-                                          `SELECT e.*, COUNT(ep.Email) AS Participant_Count, u.UserName AS Creator_Name
-                                          FROM event e
-                                          LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event
-                                          LEFT JOIN user u ON e.Email = u.Email
-                                          WHERE e.ID_Event = ?`, 
-                                          [eventId],
-                                          (err, results) => {
+                                          'INSERT INTO event_participants (Email, ID_Event) VALUES (?, ?)',
+                                          [userEmail, eventId],
+                                          (err) => {
                                               if (err) {
-                                                  console.error('Lỗi truy vấn sự kiện:', err);
-                                                  return res.status(500).json({ success: false, message: 'Lỗi truy vấn sự kiện. Vui lòng thử lại sau.' });
+                                                  console.error('Lỗi khi thêm người tham gia:', err);
+                                                  return res.status(500).json({ success: false, message: 'Lỗi khi thêm người tham gia. Vui lòng thử lại sau.' });
                                               }
 
-                                              // Kiểm tra nếu không tìm thấy sự kiện
-                                              if (!results || results.length === 0) {
-                                                  return res.status(404).json({ success: false, message: 'Không tìm thấy sự kiện.' });
-                                              }
-
-                                              // Định dạng thời gian
-                                              const formatDate = (date) => {
-                                                  const d = new Date(date);
-                                                  const day = (`0${d.getDate()}`).slice(-2);
-                                                  const month = (`0${d.getMonth() + 1}`).slice(-2); 
-                                                  const year = d.getFullYear();
-                                                  const hours = (`0${d.getHours()}`).slice(-2);
-                                                  const minutes = (`0${d.getMinutes()}`).slice(-2);
-                                                  return `${day}/${month}/${year} ${hours}:${minutes}`;
-                                              };
-
-                                              const formattedStartTime = formatDate(results[0].Start_time);
-                                              const formattedEndTime = formatDate(results[0].End_time);
-
-                                              return res.json({
-                                                  success: true,
-                                                  message: 'Đăng ký thành công!',
-                                                  event: {
-                                                      Name: results[0].Name,
-                                                      Start_time: formattedStartTime,
-                                                      End_time: formattedEndTime,
-                                                      Location: results[0].Location,
-                                                      Description: results[0].Description
-                                                  },
-                                                  Email: userEmail
-                                              });
+                                              return res.json({ success: true, message: 'Đăng ký thành công!' });
                                           }
                                       );
                                   }
@@ -388,15 +355,11 @@ const RegisterEvent = async (req, res) => {
               );
           }
       );
-
   } catch (error) {
       console.error('Lỗi:', error);
       return res.status(500).json({ success: false, message: 'Lỗi server. Vui lòng thử lại sau.' });
   }
 };
-
-
-
 
 
 //Lấy ID sự kiện

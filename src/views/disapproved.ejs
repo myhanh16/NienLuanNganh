@@ -65,23 +65,23 @@
     
     
     <% if (event.length > 0) { %>
-    <div class="product-grid">
-        
-            <% event.forEach(function(ev) { %>
-                <div class="product-item">
-                    <img src="<%= ev.Image_URL %>" alt="Event Image">
-                    <h3><%= ev.Name %></h3>
-                    <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
-                    <p><span>Địa điểm: <%= ev.Location %></span></p>
-                    <p><span>Giá vào cổng: <%= ev.Price %></span></p>
-                    <p><span>Chi tiết: <%= ev.Description %></span></p>
-                    <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
-                    <div class="max">
-                        <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants - ev.Participant_Count %>/<%= ev.Max_Participants %></i></p>
+        <div class="product-grid">
+            
+                <% event.forEach(function(ev) { %>
+                    <div class="product-item">
+                        <img src="<%= ev.Image_URL %>" alt="Event Image">
+                        <h3><%= ev.Name %></h3>
+                        <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
+                        <p><span>Địa điểm: <%= ev.Location %></span></p>
+                        <p><span>Giá vào cổng: <%= ev.Price %></span></p>
+                        <p><span>Chi tiết: <%= ev.Description %></span></p>
+                        <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
+                        <div class="max">
+                            <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants - ev.Participant_Count %>/<%= ev.Max_Participants %></i></p>
+                        </div>
                     </div>
-                </div>
-            <% }); %>
-    </div>
+                <% }); %>
+        </div>
     <% } else { %>
         <div class="alert alert-info" style="color: red; text-align: center;">
             Không có sự kiện nào không duyệt.

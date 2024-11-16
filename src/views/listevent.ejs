@@ -113,10 +113,12 @@
                         
                         <% if (ev.Reason  && ev.status == 2) { %>
                             <a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
-                        <% } else {%>
+                        <% } else if (ev.Participant_Count > 0) { %>
+                            <a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit" style="color: green;"></i></a>
+                        <% } else { %>
                             <a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit" style="color: green;"></i></a>
                             <a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
-                        <% }%>
+                        <% } %>
                     </div>
                 </div>
             <% }); %>

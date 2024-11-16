@@ -300,27 +300,29 @@ footer a:hover {
 
 /* Container cho khung lưới sản phẩm */
 .product-grid {
-    display: grid;
-   
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 20px; 
-    padding: 20px;
-    background-color: rgb(215, 209, 209); 
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 10px;
+    padding: 10px;
+    /* background-color: rgb(215, 209, 209);  */
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa của khung */
+    margin: 0 auto; /* Căn giữa khung trong trang */
+    border-radius: 10px;
 }
 
-/* Mỗi sản phẩm trong lưới */
 .product-item {
+    width: calc(30% - 15px); /* Mỗi sản phẩm chiếm 25% chiều rộng, trừ đi khoảng cách giữa các sản phẩm */
     position: relative;
-    display: inline-block;
-    margin: 10px;
-    background-color: white; /* Màu nền của sản phẩm */
-    border: 1px solid #ddd; /* Viền xung quanh sản phẩm */
-    padding: 15px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
     text-align: center;
-    border-radius: 8px; /* Bo góc sản phẩm */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Bóng đổ cho sản phẩm */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Hiệu ứng khi hover */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
+
 
 .edit-delete-icons, .delete-check-icons{
     position: absolute;
@@ -749,6 +751,7 @@ h4 {
 
 
 .container {
+    
     width: 90%;
     max-width: 1200px;
     margin: auto;
