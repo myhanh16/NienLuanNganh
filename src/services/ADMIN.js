@@ -242,8 +242,8 @@ const sendRejectionEmail = async (to, eventName, startTime, endTime, location, r
       const mailOptions = {
         from: process.env.EMAIL_USER, 
         to: to,
-        subject: `Sự kiện "${eventName}" đã được không chấp thuận`,
-        text: `Sự kiện "${eventName}" của bạn đã được chấp thuận!\n\n` +
+        subject: `Sự kiện "${eventName}" đã không được chấp thuận`,
+        text: `Sự kiện "${eventName}" của bạn đã không được chấp thuận!\n\n` +
               `Thời gian bắt đầu: ${startTime}\n` +
               `Thời gian kết thúc: ${endTime}\n` +
               `Địa điểm: ${location}\n` +
