@@ -120,7 +120,7 @@
             <% event.forEach(function(ev) { %>
                 <div class="product-item">
                     <div class="heart-icon">
-                        <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>')" method="post"></i>
+                        <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')" method="post"></i>
                     </div>
                     <img src="<%= ev.Image_URL %>" alt="Event Image">
                     <h3><%= ev.Name %></h3>

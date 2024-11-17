@@ -280,7 +280,7 @@ const RegisterEvent = async (req, res) => {
 
               // Kiểm tra xem sự kiện đã diễn ra hay chưa
               con.query(
-                  'SELECT Start_time, Max_Participants FROM event WHERE ID_Event = ?',
+                  'SELECT Start_time, Max_Participants, Name, Location, Description FROM event WHERE ID_Event = ?',
                   [eventId],
                   (err, results) => {
                       if (err) {
@@ -344,7 +344,30 @@ const RegisterEvent = async (req, res) => {
                                                   return res.status(500).json({ success: false, message: 'Lỗi khi thêm người tham gia. Vui lòng thử lại sau.' });
                                               }
 
-                                              return res.json({ success: true, message: 'Đăng ký thành công!' });
+                                              // Định dạng thời gian
+                                            const formatDate = (date) => {
+                                                const d = new Date(date);
+                                                const day = (`0${d.getDate()}`).slice(-2);
+                                                const month = (`0${d.getMonth() + 1}`).slice(-2); 
+                                                const year = d.getFullYear();
+                                                const hours = (`0${d.getHours()}`).slice(-2);
+                                                const minutes = (`0${d.getMinutes()}`).slice(-2);
+                                                return `${day}/${month}/${year} ${hours}:${minutes}`;
+                                            };
+                                            const formattedStartTime = formatDate(event.Start_time);
+                                            const formattedEndTime = formatDate(event.End_time);
+                                              return res.json({
+                                                  success: true,
+                                                  message: 'Đăng ký thành công!',
+                                                  event: {
+                                                      Name: event.Name,
+                                                      Start_time: formattedStartTime,
+                                                      End_time: formattedStartTime,   
+                                                      Location: event.Location,
+                                                      Description: event.Description
+                                                  },
+                                                  Email: userEmail 
+                                              });
                                           }
                                       );
                                   }
@@ -659,6 +682,41 @@ const searchEventbyType = async (req, res) => {
 };
 
 
+//Xem chi tiết sự kiện
+const detail = async (req, res) => {
+  const eventID = req.params.ID_Event;
+
+  await con.query (
+    `SELECT 
+       e.*, 
+       COUNT(ep.Email) AS Participant_Count, 
+       u.UserName AS Creator_Name
+     FROM event e
+     LEFT JOIN event_participants ep ON e.ID_Event = ep.ID_Event
+     LEFT JOIN user u ON e.Email = u.Email
+     WHERE e.ID_Event = ?
+     GROUP BY e.ID_Event`, [eventID],
+    function (err, results) {
+      if (err) {
+        console.error('Error executing query:', err);
+        return res.status(500).send('Error executing query');
+      }
+
+      const formattedEvents = results.map(event => ({
+        ...event,
+        Start_time: format(new Date(event.Start_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+        End_time: format(new Date(event.End_time), 'dd/MM/yyyy HH:mm:ss', { locale: vi }),
+        Participant_Count: event.Participant_Count // Thêm Participant_Count vào kết quả
+      }));
+
+      if (formattedEvents.length === 0) {
+        req.flash('error_msg', 'Không tìm thấy sự kiện nào.');
+      }
+
+      res.render('eventDetail', { event: formattedEvents, session: req.session, notify: req.flash('error_msg') });
+    }
+  );
+};
 
 module.exports = {
   ListALLEvent, 
@@ -675,5 +733,6 @@ module.exports = {
   // isAuthenticated,
   Participants,
   sendRegistrationEmail,
-  searchEventbyType
+  searchEventbyType,
+  detail
 }

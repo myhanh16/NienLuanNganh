@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {getHome, login, register, logout, create, listevent, registerevent,
-    getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype} = require('../controllers/homeController');
+    getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype, Details} = require('../controllers/homeController');
 const session = require('express-session');
 const { route } = require('express/lib/application');
 const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove, listuser} = require('../controllers/admin')
@@ -79,6 +79,7 @@ router.post('/sendEmail', sendEmail, (req, res) => {
 
 router.get('/searchbyType', searcheventbytype);
 
+router.get('/event/:ID_Event', Details);
 
 // ------------------ADMIN----------------
 router.get('/all_event', listEvent);

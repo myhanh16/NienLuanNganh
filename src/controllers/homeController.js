@@ -4,7 +4,7 @@ const { vi } = require('date-fns/locale'); // Đảm bảo import đúng locale
 const con = require('../config/database');
 const CRUD = require('../services/CRUD');
 const {ListALLEvent, Login, Register, Logout, Create, ListEvent, RegisterEvent, getEventByID, editEvent, deleteEvent, searchEvent, 
-       Participants, sendRegistrationEmail, searchEventbyType} = require('../services/CRUD');
+       Participants, sendRegistrationEmail, searchEventbyType, detail} = require('../services/CRUD');
 
 // const file = '/img/';
 
@@ -180,6 +180,15 @@ const searcheventbytype = async (req, res) =>{
   }
 }
 
+const Details = async (req, res) => {
+  try{
+    await detail(req, res);
+  }
+  catch(error){
+    console.error('Error in search event by type: ', error); // Log the error to the console
+    res.status(500).send('Lỗi khi tải sự kiện');
+  }
+}
 
 
 module.exports = {
@@ -198,4 +207,5 @@ module.exports = {
   participants,
   sendEmail,
   searcheventbytype, 
+  Details
 };
