@@ -113,33 +113,36 @@
     <% } %>
 
     
-    <!-- Kiểm tra kết quả tìm kiếm -->
-    <% if (event.length > 0) { %>
-        <div class="product-grid">
-            <% event.forEach(function(ev) { %>
-                <div class="product-item">
-                    <div class="heart-icon">
-                        <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')" method="post"></i>
-                    </div>
-                    <img src="<%= ev.Image_URL %>" alt="Event Image">
-                    <h3><%= ev.Name %></h3>
-                    <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
-                    <p><span>Địa điểm: <%= ev.Location %></span></p>
-                    <p><span>Giá vào cổng: <%= ev.Price %></span></p>
-                    <p><span>Chi tiết: <%= ev.Description %></span></p>
-                    <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
-                    <div class="max">
-                        <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants - (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
-                    </div>
-                </div>
-            <% }); %>
+    <!-- Lặp qua danh sách sự kiện -->
+<% if (event.length > 0) { %>
+    <% event.forEach(function(ev) { %>
+        <div class="card mb-4 shadow-sm">
+            <img src="<%= ev.Image_URL %>" class="card-img-top" alt="Event Image">
+            <div class="card-body">
+                <h5 class="card-title"><%= ev.Name %></h5>
+                <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
+                <p><span>Địa điểm: <%= ev.Location %></span></p>
+                <p><span>Giá vào cổng: <%= ev.Price %></span></p>
+                <p><span>Chi tiết: <%= ev.Description %> </span></p>
+                <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
+                <p><span><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></span></p>
+                <!-- <button class="btn btn-danger" id="heart-icon-<%= ev.ID_Event %>" onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')">
+                    <i class="fa fa-heart"></i> Đăng ký
+                </button> -->
+                <% if (!session.user || session.user.admin !== 1) { %>
+                    <button class="btn btn-danger" id="heart-icon-<%= ev.ID_Event %>" onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')">
+                        <i class="fa fa-heart"></i> Đăng ký
+                    </button>
+                <% } %>
+            </div>
         </div>
-    <% } else { %>
-        <!-- Thông báo không tìm thấy sự kiện -->
-        <div class="alert alert-success" style="color: red; text-align: center; justify-content: center; align-items: center;">
-            <!-- Không tìm thấy sự kiện nào phù hợp với từ khóa "<%= eventQuery %>" -->
-        </div>
-    <% } %>
+    <% }); %>
+<% } else { %>
+    <div class="alert alert-danger text-center">
+        Không tìm thấy sự kiện nào.
+    </div>
+<% } %>
+
 
     <script src="/js/main.js"></script>
 

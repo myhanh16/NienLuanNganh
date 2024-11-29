@@ -392,7 +392,7 @@ footer a:hover {
 }
 
 /* Giá sản phẩm */
-.product-item p, .event-item p {
+.product-item p, .event-item p, .card-body p {
     display: flex;
     justify-content: space-between; 
     margin: 5px 0; 
@@ -1004,3 +1004,57 @@ h4 {
 
 
 /* --------------Details------------------- */
+.card {
+    border-radius: 10px;            /* Góc bo tròn */
+    overflow: hidden;               /* Giới hạn phần tử ra ngoài */
+    border: 1px solid #ddd;         /* Đường viền */
+    background-color: #fff;         /* Màu nền trắng cho card */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ cho card */
+    max-width: 800px;               /* Giới hạn chiều rộng tối đa của card */
+    margin: 20px auto;              /* Căn giữa card theo chiều ngang */
+    text-align: center;             /* Căn giữa nội dung văn bản */
+}
+
+.card-img-top {
+    width: 100%;                    /* Hình ảnh chiếm toàn bộ chiều rộng card */
+    height: 400px;                   /* Chiều cao tự động để đảm bảo tỷ lệ hình ảnh */
+    object-fit: cover;              /* Đảm bảo hình ảnh phủ đầy không gian mà không bị méo */
+    border-bottom: 1px solid #ddd;  /* Đường viền ngăn cách giữa ảnh và nội dung */
+}
+
+.card-body {
+    padding: 20px;                  /* Khoảng cách bên trong card */
+    background-color: #f9f9f9;      /* Màu nền nhẹ cho phần nội dung */
+    text-align: left;               /* Căn trái nội dung văn bản */
+}
+
+.card-title {
+    margin-top: 5px;
+    /* display: inline-block; Đảm bảo h1 chỉ chiếm không gian cần thiết */
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #8dcbf5;
+    text-align: center;
+    font-size: 1.8em;               /* Kích thước font tiêu đề */
+    font-weight: bold;              /* Đậm cho tiêu đề */
+    margin-bottom: 10px;            /* Khoảng cách dưới tiêu đề */
+}
+
+.btn-danger {
+    display: block;                 /* Biến nút thành một khối */
+    margin: 0 auto;                 /* Căn giữa ngang bằng cách đặt margin auto */
+    text-align: center;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px  40px;
+    font-size: 24px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+
+.btn-danger:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
