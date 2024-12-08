@@ -1,84 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lí sự kiện</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    
-    <header class="header">
-        <!-- Load an icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lí sự kiện</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
 
-        <div class="navbar">
-            <a href="/homeadmin" class="logo">
-                <img src="/img/logo.png" alt="Logo">
-            </a>
-            <div class="links">
-                <a class="" href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a href="/browse_event" class=""><i class="fa fa-fw fa-check-square"></i>Duyệt Sự Kiện</a>
-                <a href="/userList" class="active"><i class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
-                <!-- <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>  -->
-                <% if (session.user) { %>
-                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
-                <% } else { %>
+        <header class="header">
+            <!-- Load an icon library -->
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+            <div class="navbar">
+                <a href="/homeadmin" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                </a>
+                <div class="links">
+                    <a class href="/homeadmin"><i
+                            class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                    <a href="/browse_event" class><i
+                            class="fa fa-fw fa-check-square"></i>Duyệt Sự
+                        Kiện</a>
+                    <a href="/userList" class="active"><i
+                            class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
+                    <!-- <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>  -->
+                    <% if (session.user) { %>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng
+                        Xuất</a>
+                    <% } else { %>
                     <div class="dropdown">
                         <p class="dropbtn">Đăng Nhập
-                          <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-down"></i>
                         </p>
                         <div class="dropdown-content">
-                          <a href="/login">Đăng Nhập</a>
-                          <a href="/register">Đăng Ký</a>
+                            <a href="/login">Đăng Nhập</a>
+                            <a href="/register">Đăng Ký</a>
                         </div>
-                      </div>
-                <% } %>
-            </div>
-            
-            <div class="account-icon-container">
-                <% if (session.user) { %>
+                    </div>
+                    <% } %>
+                </div>
+
+                <div class="account-icon-container">
+                    <% if (session.user) { %>
                     <i class="fa fa-fw fa-user-circle account-icon">
                         <p class="username"><%= session.user.UserName %></p>
                     </i>
-                <% } else { %>
+                    <% } else { %>
                     <i class="fa fa-fw fa-user-circle account-icon">
                         <p class="username">Tài Khoản</p>
                     </i>
-                <% } %>
-            </div>
-            
-        </div>
-    </header>
+                    <% } %>
+                </div>
 
-    <h4>Danh sách người dùng</h4>
-    <table class="table" border="1">
-        <thead>
-            <th>Email</th>
-            <th>Họ tên người dùng</th>
-            <th>Số điện thoại</th>
-        </thead>
-        <tbody>
-            <% user.forEach(function(u) {%>
+            </div>
+        </header>
+
+        <h4>Danh sách người dùng</h4>
+        <table class="table" border="1">
+            <thead>
+                <th>Email</th>
+                <th>Họ tên người dùng</th>
+                <th>Số điện thoại</th>
+            </thead>
+            <tbody>
+                <% user.forEach(function(u) {%>
                 <tr>
                     <td><%= u.Email %></td>
                     <td><%= u.UserName%></td>
                     <td><%= u.Phone %></td>
                 </tr>
-            <% });%>
-        </tbody>
-    </table>
-    
-    
-    <script src="/js/main.js"></script>
-    <footer>
-        <h6>Liên hệ chúng tôi</h6>
-        <i class="fa fa-fw fa-whatsapp"></i>
-        <p>1900 1090</p><br>
-        <i class="fa fa-fw fa-envelope"></i>
-        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
-    </footer>
-    
-</body>
+                <% });%>
+            </tbody>
+        </table>
+
+        <script src="/js/main.js"></script>
+        <footer>
+            <h6>Liên hệ chúng tôi</h6>
+            <i class="fa fa-fw fa-whatsapp"></i>
+            <p>1900 1090</p><br>
+            <i class="fa fa-fw fa-envelope"></i>
+            <p><a
+                    href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+        </footer>
+
+    </body>
 </html>

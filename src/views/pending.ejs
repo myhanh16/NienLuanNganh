@@ -1,119 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lí sự kiện</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    
-    <header class="header">
-        <div class="navbar">
-            <a href="/homeadmin" class="logo">
-                <img src="/img/logo.png" alt="Logo">
-            </a>
-            <div class="links">
-                <a href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a href="/browse_event" class="active"><i class="fa fa-fw fa-check-square"></i>Duyệt Sự Kiện</a>
-                <a href="/userList"><i class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
-                <% if (session.user) { %>
-                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
-                <% } else { %>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lí sự kiện</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+
+        <header class="header">
+            <div class="navbar">
+                <a href="/homeadmin" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                </a>
+                <div class="links">
+                    <a href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang
+                        Chủ</a>
+                    <a href="/browse_event" class="active"><i
+                            class="fa fa-fw fa-check-square"></i>Duyệt Sự
+                        Kiện</a>
+                    <a href="/userList"><i class="fa fa-fw fa-group"></i>Quản Lý
+                        Người Dùng</a>
+                    <% if (session.user) { %>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng
+                        Xuất</a>
+                    <% } else { %>
                     <div class="dropdown">
                         <p class="dropbtn">Đăng Nhập
-                          <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-down"></i>
                         </p>
                         <div class="dropdown-content">
-                          <a href="/login">Đăng Nhập</a>
-                          <a href="/register">Đăng Ký</a>
+                            <a href="/login">Đăng Nhập</a>
+                            <a href="/register">Đăng Ký</a>
                         </div>
                     </div>
-                <% } %>
-            </div>
-            <div class="account-icon-container">
-                <% if (session.user) { %>
+                    <% } %>
+                </div>
+                <div class="account-icon-container">
+                    <% if (session.user) { %>
                     <i class="fa fa-fw fa-user-circle account-icon">
                         <p class="username"><%= session.user.UserName %></p>
                     </i>
-                <% } else { %>
+                    <% } else { %>
                     <i class="fa fa-fw fa-user-circle account-icon">
                         <p class="username">Tài Khoản</p>
                     </i>
-                <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </header>
+
+        <div class="event-management">
+            <h4>Duyệt Sự Kiện</h4>
+            <div class="event-tabs">
+                <a href="/all_event" class="event-tab ">Tất Cả Sự Kiện</a>
+                <a href="/pending" class="event-tab active">Sự Kiện Chưa
+                    Duyệt</a>
+                <a href="/approved" class="event-tab">Sự Kiện Đã Duyệt</a>
+                <a href="/disapproved" class="event-tab">Sự Kiện Không Duyệt</a>
             </div>
         </div>
-    </header>
 
-    <div class="event-management">
-        <h4>Duyệt Sự Kiện</h4>
-        <div class="event-tabs">
-            <a href="/all_event" class="event-tab ">Tất Cả Sự Kiện</a>
-            <a href="/pending" class="event-tab active">Sự Kiện Chưa Duyệt</a>
-            <a href="/approved" class="event-tab">Sự Kiện Đã Duyệt</a>
-            <a href="/disapproved" class="event-tab">Sự Kiện Không Duyệt</a>
-        </div>
-    </div>
-    
-    <% if (event.length > 0) { %>
+        <% if (event.length > 0) { %>
         <div class="product-grid">
-            
-                <% event.forEach(function(ev) { %>
-                    <div class="product-item">
-                        <img src="<%= ev.Image_URL %>" alt="Event Image">
-                        <h3><%= ev.Name %></h3>
-                        <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
-                        <p><span>Địa điểm: <%= ev.Location %></span></p>
-                        <p><span>Giá vào cổng: <%= ev.Price %></span></p>
-                        <!-- <p><span>Chi tiết: <%= ev.Description %></span></p> -->
-                        <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
-                        <button><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></button><br>
-                        <div class="max">
-                            <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants - (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
-                        </div>
-                        <div class="delete-check-icons">
-                            <!-- <a href="/approved/<%= ev.ID_Event %>"><i class="fa fa-fw fa-check-square" style="color: green;"></i></a> -->
-                            <form action="/approved/<%= ev.ID_Event %>" method="post" onsubmit="return confirmApproval('<%= ev.Name%>')">
 
-                                <button type="submit" style="border: none; background: none; cursor: pointer;">
-                                    <i class="fa fa-fw fa-check-square" style="color: green; font-size: 25px;"></i>
-                                </button>
-                            </form>
-                            <a href="#" onclick="showModal('<%= ev.ID_Event %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
-                        </div>
-                    </div>
-                    <!-- Modal cho form nhập lý do không duyệt -->
-                    <div id="disapproveModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <form id="disapproveForm" action="/disapproved/<%= ev.ID_Event %>" method="post">
-                                <label for="reason">Lý do không duyệt:</label>
-                                <input type="text" name="reason" id="reason" required>
-                                <button type="submit">Xác nhận</button>
-                            </form>
-                        </div>
-                    </div>
-                <% }); %>
+            <% event.forEach(function(ev) { %>
+            <div class="product-item">
+                <img src="<%= ev.Image_URL %>" alt="Event Image">
+                <h3><%= ev.Name %></h3>
+                <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time
+                        %></span></p>
+                <p><span>Địa điểm: <%= ev.Location %></span></p>
+                <p><span>Giá vào cổng: <%= ev.Price %></span></p>
+                <!-- <p><span>Chi tiết: <%= ev.Description %></span></p> -->
+                <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name
+                        %></span></p>
+                <button><a href="/event/<%= ev.ID_Event %>">Xem chi
+                        tiết</a></button><br>
+                <div class="max">
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants
+                            - (ev.Participant_Count) %>/<%= ev.Max_Participants
+                            %></i></p>
+                </div>
+                <div class="delete-check-icons">
+                    <!-- <a href="/approved/<%= ev.ID_Event %>"><i class="fa fa-fw fa-check-square" style="color: green;"></i></a> -->
+                    <form action="/approved/<%= ev.ID_Event %>" method="post"
+                        onsubmit="return confirmApproval('<%= ev.Name%>')">
+
+                        <button type="submit"
+                            style="border: none; background: none; cursor: pointer;">
+                            <i class="fa fa-fw fa-check-square"
+                                style="color: green; font-size: 25px;"></i>
+                        </button>
+                    </form>
+                    <a href="#" onclick="showModal('<%= ev.ID_Event %>')"><i
+                            class="fa fa-fw fa-close"
+                            style="color: red;"></i></a>
+                </div>
+            </div>
+            <!-- Modal cho form nhập lý do không duyệt -->
+            <div id="disapproveModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <form id="disapproveForm"
+                        action="/disapproved/<%= ev.ID_Event %>" method="post">
+                        <label for="reason">Lý do không duyệt:</label>
+                        <input type="text" name="reason" id="reason" required>
+                        <button type="submit">Xác nhận</button>
+                    </form>
+                </div>
+            </div>
+            <% }); %>
         </div>
-    <% } else { %>
+        <% } else { %>
         <div class="alert alert-success" style="color: red; text-align:center">
             Không tìm thấy sự kiện nào chờ duyệt.
         </div>
-    <% } %>
-    
+        <% } %>
 
+        <script src="/js/main.js"></script>
 
-    <script src="/js/main.js"></script>
-   
-    
-    <footer>
-        <h6>Liên hệ chúng tôi</h6>
-        <i class="fa fa-fw fa-whatsapp"></i>
-        <p>1900 1090</p><br>
-        <i class="fa fa-fw fa-envelope"></i>
-        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
-    </footer>
+        <footer>
+            <h6>Liên hệ chúng tôi</h6>
+            <i class="fa fa-fw fa-whatsapp"></i>
+            <p>1900 1090</p><br>
+            <i class="fa fa-fw fa-envelope"></i>
+            <p><a
+                    href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+        </footer>
 
-</body>
+    </body>
 </html>

@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lí sự kiện</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <header class="header">
-        <!-- Load an icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lí sự kiện</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+        <header class="header">
+            <!-- Load an icon library -->
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <div class="navbar">
-            <a href="/" class="logo">
-                <img src="/img/logo.png" alt="Logo">
-            </a>
-            <div class="links">
-                <a class="" href="/"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a class="" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
-                <!-- <div class="dropdown">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                </a>
+                <div class="links">
+                    <a class href="/"><i class="fa fa-fw fa-home"></i>Trang
+                        Chủ</a>
+                    <a class href="/create"><i class="fa fa-fw fa-edit"></i>Tạo
+                        Sự Kiện</a>
+                    <!-- <div class="dropdown">
                     <p class="dropbtn">Tạo Sự Kiện
                       <i class="fa fa-fw fa-edit"></i>
                     </p>
@@ -28,47 +32,52 @@
                       <a href="/listevent">Danh Sách Sự Kiện</a>
                     </div>
                   </div> -->
-                <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
-                <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên hệ</a> -->
-                <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>
-                <!-- <a href="/login" class="active"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                    <a class href="/participants"><i
+                            class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                    <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên hệ</a> -->
+                    <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng
+                        Tôi</a>
+                    <!-- <a href="/login" class="active"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
                 <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
-                <div class="dropdown">
-                    <p class="dropbtn">Đăng Nhập
-                      <i class="fa fa-caret-down"></i>
-                    </p>
-                    <div class="dropdown-content">
-                      <a href="/login" class="active">Đăng Nhập</a>
-                      <a href="/register">Đăng Ký</a>
+                    <div class="dropdown">
+                        <p class="dropbtn">Đăng Nhập
+                            <i class="fa fa-caret-down"></i>
+                        </p>
+                        <div class="dropdown-content">
+                            <a href="/login" class="active">Đăng Nhập</a>
+                            <a href="/register">Đăng Ký</a>
+                        </div>
                     </div>
+                    <!-- <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i> -->
                 </div>
-                <!-- <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i> -->
+                <div class="account-icon-container">
+                    <i class="fa fa-fw fa-user-circle account-icon"><p>Tài
+                            Khoản</p></i>
+                </div>
             </div>
-            <div class="account-icon-container">
-                <i class="fa fa-fw fa-user-circle account-icon"><p>Tài Khoản</p></i>
-            </div>
+        </header>
+
+        <div class="form">
+            <form action="/login" method="post">
+                <fieldset>
+                    <legend>Đăng Nhập</legend>
+                    <% if (error) {%>
+                    <p class="alert alert-success" style="color: red;"><%=
+                        error%></p>
+                    <% } %>
+                    <div class="input-user">
+                        <label>Email: </label>
+                        <input type="Email" name="email" required><br>
+                        <label>Mật khẩu: </label>
+                        <input type="password" name="password" required><br>
+                        <p>Bạn chưa có tài khoản? <a href="/register">Đăng
+                                Ký</a></p>
+                        <input type="submit" name="submit" value="Đăng Nhập">
+                    </div>
+                </fieldset>
+            </form>
         </div>
-    </header>
 
-    <div class="form">
-        <form action="/login" method="post">
-            <fieldset>
-                <legend>Đăng Nhập</legend>
-                <% if (error) {%>
-                    <p class="alert alert-success" style="color: red;"><%= error%></p>
-                <% } %>
-                <div class="input-user">
-                    <label>Email: </label>
-                    <input type="Email" name="email" required><br>
-                    <label>Mật khẩu: </label>
-                    <input type="password" name="password" required><br>
-                    <p>Bạn chưa có tài khoản? <a href="/register">Đăng Ký</a></p>
-                    <input type="submit" name="submit" value="Đăng Nhập">
-                </div>
-            </fieldset>
-        </form>
-    </div>
-
-    <script src="/js/main.js"></script>
-</body>
+        <script src="/js/main.js"></script>
+    </body>
 </html>

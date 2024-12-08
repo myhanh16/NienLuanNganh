@@ -1,27 +1,31 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lí sự kiện</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    
-    <header class="header">
-        <!-- Load an icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lí sự kiện</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
 
-        <div class="navbar">
-            <a href="/" class="logo">
-                <img src="/img/logo.png" alt="Logo">
-            </a>
-            <div class="links">
-                <a class="" href="/"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                <a class="active" href="/create"><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
-                <!-- <div class="dropdown">
+        <header class="header">
+            <!-- Load an icon library -->
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                </a>
+                <div class="links">
+                    <a class href="/"><i class="fa fa-fw fa-home"></i>Trang
+                        Chủ</a>
+                    <a class="active" href="/create"><i
+                            class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
+                    <!-- <div class="dropdown">
                     <p class="dropbtn">Tạo Sự Kiện
                       <i class="fa fa-fw fa-edit"></i>
                     </p>
@@ -30,109 +34,123 @@
                       <a href="/listvent" class="active">Danh Sách Sự Kiện</a>
                     </div>
                   </div> -->
-                <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
-                <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
+                    <a class href="/participants"><i
+                            class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                    <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
                 <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
-                <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
-                <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
-                <% if (session.user) { %>
-                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
-                <% } else { %>
+                    <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
+                    <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng
+                        Tôi</a>
+                    <% if (session.user) { %>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng
+                        Xuất</a>
+                    <% } else { %>
                     <div class="dropdown">
                         <p class="dropbtn">Đăng Nhập
-                          <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-down"></i>
                         </p>
                         <div class="dropdown-content">
-                          <a href="/login">Đăng Nhập</a>
-                          <a href="/register">Đăng Ký</a>
+                            <a href="/login">Đăng Nhập</a>
+                            <a href="/register">Đăng Ký</a>
                         </div>
-                      </div>
-                <% } %>
-            </div>
-            
-            <div class="account-icon-container">
-                <% if (session.user) { %>
+                    </div>
+                    <% } %>
+                </div>
+
+                <div class="account-icon-container">
+                    <% if (session.user) { %>
                     <i class="fa fa-fw fa-user-circle account-icon">
                         <p class="username"><%= session.user.UserName %></p>
                     </i>
-                <% } else { %>
+                    <% } else { %>
                     <i class="fa fa-fw fa-user-circle account-icon">
                         <p class="username">Tài Khoản</p>
                     </i>
-                <% } %>
+                    <% } %>
+                </div>
+
             </div>
-            
-        </div>
-    </header>
+        </header>
 
-    <ul>
-        <li><h2>Danh Mục</h2></li>
-        <li><a href="/create" class="">Tạo sự kiện</a></li>
-        <li><a href="/listevent" class="active1">Danh Sách Sự Kiện</a></li>
-        <!-- <li><a href="/edit">Sửa Thông Tin Sự Kiện</a></li> -->
-        <!-- <li><a href="#contact">Contact</a></li>
+        <ul>
+            <li><h2>Danh Mục</h2></li>
+            <li><a href="/create" class>Tạo sự kiện</a></li>
+            <li><a href="/listevent" class="active1">Danh Sách Sự Kiện</a></li>
+            <!-- <li><a href="/edit">Sửa Thông Tin Sự Kiện</a></li> -->
+            <!-- <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li> -->
-    </ul>
+        </ul>
 
-    
-      
-
-    <div class="table">
-        <h4>Danh Sách Sự Kiện Của <%= session.user.UserName %></h4>
-        <% if (notify && notify.length > 0) { %>
+        <div class="table">
+            <h4>Danh Sách Sự Kiện Của <%= session.user.UserName %></h4>
+            <% if (notify && notify.length > 0) { %>
             <div class="alert alert-success" style="color: red;">
                 <%= notify[0] %>
             </div>
-        <% } %>
-        <div class="product-grid">
-            <% event.forEach(function(ev) { %>
+            <% } %>
+            <div class="product-grid">
+                <% event.forEach(function(ev) { %>
                 <div class="product-item">
                     <img src="<%= ev.Image_URL %>" alt="Event Image">
                     <h3><%= ev.Name %></h3>
-                    <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
+                    <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time
+                            %></span></p>
                     <p><span>Địa điểm: <%= ev.Location %></span></p>
                     <p><span>Giá vào cổng: <%= ev.Price %></span></p>
                     <p><span>Chi tiết: <%= ev.Description %></span></p>
-                    
-                    <p style="color: gray;">Trạng thái: 
-                    <% if (ev.status === 1) { %>
+
+                    <p style="color: gray;">Trạng thái:
+                        <% if (ev.status === 1) { %>
                         Đã Duyệt
-                    <% } else if (ev.status === 0) { %>
+                        <% } else if (ev.status === 0) { %>
                         Chưa Duyệt
-                    <% } else if (ev.status === 2) { %>
+                        <% } else if (ev.status === 2) { %>
                         Không Duyệt
-                    <% } %>
+                        <% } %>
                     </p>
-                    <% if (ev.Reason  && ev.status == 2) { %>
-                        <p style="color: red;">Lý do: <%= ev.Reason %></p>
+                    <% if (ev.Reason && ev.status == 2) { %>
+                    <p style="color: red;">Lý do: <%= ev.Reason %></p>
                     <% }%><br>
                     <div class="max">
-                        <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants - (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
+                        <p><i class="fa fa-fw fa-user icon"><%=
+                                ev.Max_Participants - (ev.Participant_Count)
+                                %>/<%= ev.Max_Participants %></i></p>
                     </div>
                     <div class="edit-delete-icons">
-                        
-                        <% if (ev.Reason  && ev.status == 2) { %>
-                            <a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
+
+                        <% if (ev.Reason && ev.status == 2) { %>
+                        <a href="#"
+                            onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i
+                                class="fa fa-fw fa-close"
+                                style="color: red;"></i></a>
                         <% } else if (ev.Participant_Count > 0) { %>
-                            <a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit" style="color: green;"></i></a>
+                        <a href="/edit/<%= ev.ID_Event %>"><i
+                                class="fa fa-fw fa-edit"
+                                style="color: green;"></i></a>
                         <% } else { %>
-                            <a href="/edit/<%= ev.ID_Event %>"><i class="fa fa-fw fa-edit" style="color: green;"></i></a>
-                            <a href="#" onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i class="fa fa-fw fa-close" style="color: red;"></i></a>
+                        <a href="/edit/<%= ev.ID_Event %>"><i
+                                class="fa fa-fw fa-edit"
+                                style="color: green;"></i></a>
+                        <a href="#"
+                            onclick="confirmDelete('<%= ev.ID_Event %>', '<%= ev.Name %>')"><i
+                                class="fa fa-fw fa-close"
+                                style="color: red;"></i></a>
                         <% } %>
                     </div>
                 </div>
-            <% }); %>
+                <% }); %>
+            </div>
         </div>
-    </div>
-    
-    <script src="/js/main.js"></script>
 
-    <footer>
-        <h6>Liên hệ chúng tôi</h6>
-        <i class="fa fa-fw fa-whatsapp"></i>
-        <p>1900 1090</p><br>
-        <i class="fa fa-fw fa-envelope"></i>
-        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
-    </footer>
-</body>
+        <script src="/js/main.js"></script>
+
+        <footer>
+            <h6>Liên hệ chúng tôi</h6>
+            <i class="fa fa-fw fa-whatsapp"></i>
+            <p>1900 1090</p><br>
+            <i class="fa fa-fw fa-envelope"></i>
+            <p><a
+                    href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+        </footer>
+    </body>
 </html>

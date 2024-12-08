@@ -1,74 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xem Chi Tiết</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Xem Chi Tiết</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-</head>
-<body>
+    </head>
+    <body>
 
-    <% if (session.user && session.user.admin === 1) { %>
+        <% if (session.user && session.user.admin === 1) { %>
         <!-- Hiển thị header admin -->
         <header class="header">
             <!-- Load an icon library -->
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
             <div class="navbar">
                 <a href="/homeadmin" class="logo">
                     <img src="/img/logo.png" alt="Logo">
                 </a>
                 <div class="links">
-                    <a class="active" href="/homeadmin"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                    <a href="/browse_event" class=""><i class="fa fa-fw fa-check-square"></i>Duyệt Sự Kiện</a>
-                    <a href="/"><i class="fa fa-fw fa-group"></i>Quản Lý Người Dùng</a>
+                    <a class="active" href="/homeadmin"><i
+                            class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                    <a href="/browse_event" class><i
+                            class="fa fa-fw fa-check-square"></i>Duyệt Sự
+                        Kiện</a>
+                    <a href="/"><i class="fa fa-fw fa-group"></i>Quản Lý Người
+                        Dùng</a>
                     <!-- <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a>  -->
                     <% if (session.user) { %>
-                        <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng
+                        Xuất</a>
                     <% } else { %>
-                        <div class="dropdown">
-                            <p class="dropbtn">Đăng Nhập
-                              <i class="fa fa-caret-down"></i>
-                            </p>
-                            <div class="dropdown-content">
-                              <a href="/login">Đăng Nhập</a>
-                              <a href="/register">Đăng Ký</a>
-                            </div>
-                          </div>
+                    <div class="dropdown">
+                        <p class="dropbtn">Đăng Nhập
+                            <i class="fa fa-caret-down"></i>
+                        </p>
+                        <div class="dropdown-content">
+                            <a href="/login">Đăng Nhập</a>
+                            <a href="/register">Đăng Ký</a>
+                        </div>
+                    </div>
                     <% } %>
                 </div>
-                
+
                 <div class="account-icon-container">
                     <% if (session.user) { %>
-                        <i class="fa fa-fw fa-user-circle account-icon">
-                            <p class="username"><%= session.user.UserName %></p>
-                        </i>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username"><%= session.user.UserName %></p>
+                    </i>
                     <% } else { %>
-                        <i class="fa fa-fw fa-user-circle account-icon">
-                            <p class="username">Tài Khoản</p>
-                        </i>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username">Tài Khoản</p>
+                    </i>
                     <% } %>
                 </div>
-                
+
             </div>
         </header>
-    <% } else { %>
+        <% } else { %>
         <!-- Hiển thị header người dùng bình thường -->
         <header class="header">
             <!-- Load an icon library -->
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
             <div class="navbar">
                 <a href="/" class="logo">
                     <img src="/img/logo.png" alt="Logo">
                 </a>
                 <div class="links">
-                    <a class="active" href="/"><i class="fa fa-fw fa-home"></i>Trang Chủ</a>
-                    <a class="" href="/create" ><i class="fa fa-fw fa-edit"></i>Tạo Sự Kiện</a>
-                    
+                    <a class="active" href="/"><i
+                            class="fa fa-fw fa-home"></i>Trang Chủ</a>
+                    <a class href="/create"><i class="fa fa-fw fa-edit"></i>Tạo
+                        Sự Kiện</a>
+
                     <!-- <div class="dropdown">
                         <p class="dropbtn">Tạo Sự Kiện
                           <i class="fa fa-fw fa-edit"></i>
@@ -79,102 +90,118 @@
                           <a href="#">Quản Lý Người Tham Gia</a>
                         </div>
                       </div> -->
-                    <a class="" href="/participants"><i class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
+                    <a class href="/participants"><i
+                            class="fa fa-fw fa-heart"></i>Đã Tham Gia</a>
                     <!-- <a href="/login"><i class="fa fa-fw fa-user"></i>Đăng Nhập</a>
                     <a href="/register" class=""><i class="fa fa-fw fa-user-plus"></i>Đăng Ký</a> -->
                     <!-- <a href="#"><i class="fa fa-fw fa-envelope"></i>Liên Hệ</a> -->
-                    <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng Tôi</a> 
+                    <a href="/about"><i class="fa fa-fw fa-vcard"></i>Về Chúng
+                        Tôi</a>
                     <% if (session.user) { %>
-                        <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng Xuất</a>
+                    <a href="/logout"><i class="fa fa-fw fa-sign-out"></i>Đăng
+                        Xuất</a>
                     <% } else { %>
-                        <div class="dropdown">
-                            <p class="dropbtn">Đăng Nhập
-                              <i class="fa fa-caret-down"></i>
-                            </p>
-                            <div class="dropdown-content">
-                              <a href="/login">Đăng Nhập</a>
-                              <a href="/register">Đăng Ký</a>
-                            </div>
-                          </div>
+                    <div class="dropdown">
+                        <p class="dropbtn">Đăng Nhập
+                            <i class="fa fa-caret-down"></i>
+                        </p>
+                        <div class="dropdown-content">
+                            <a href="/login">Đăng Nhập</a>
+                            <a href="/register">Đăng Ký</a>
+                        </div>
+                    </div>
                     <% } %>
                 </div>
-                
+
                 <div class="account-icon-container">
                     <% if (session.user) { %>
-                        <i class="fa fa-fw fa-user-circle account-icon">
-                            <p class="username"><%= session.user.UserName %></p>
-                        </i>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username"><%= session.user.UserName %></p>
+                    </i>
                     <% } else { %>
-                        <i class="fa fa-fw fa-user-circle account-icon">
-                            <p class="username">Tài Khoản</p>
-                        </i>
+                    <i class="fa fa-fw fa-user-circle account-icon">
+                        <p class="username">Tài Khoản</p>
+                    </i>
                     <% } %>
                 </div>
-                
+
             </div>
         </header>
-    <% } %>
+        <% } %>
 
-<!-- Search Results -->
-<% if (event.length > 0) { %>
-    <% let eventTypeMessage; %>
-    <% if (eventQuery === '1') { %>
+        <!-- Search Results -->
+        <% if (event.length > 0) { %>
+        <% let eventTypeMessage; %>
+        <% if (eventQuery === '1') { %>
         <% eventTypeMessage = 'Âm Nhạc'; %>
-    <% } else if (eventQuery === '3') { %>
+        <% } else if (eventQuery === '3') { %>
         <% eventTypeMessage = 'Chương Trình Trò Chuyện'; %>
-    <% } else if (eventQuery === '2') { %>
+        <% } else if (eventQuery === '2') { %>
         <% eventTypeMessage = 'Hoạt Động Nhóm'; %>
-    <% } else { %>
+        <% } else { %>
         <% eventTypeMessage = 'Sự Kiện Khác'; %>
-    <% } %>
-    <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho Sự kiện Theo Loại: "<%= eventTypeMessage %>"</h2>
-    <div class="product-grid">
-        <% event.forEach(function(ev) { %>
+        <% } %>
+        <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho Sự kiện Theo Loại:
+            "<%= eventTypeMessage %>"</h2>
+        <div class="product-grid">
+            <% event.forEach(function(ev) { %>
             <div class="product-item">
                 <% if (!session.user || session.user.admin !== 1) { %>
-                    <div class="heart-icon">
-                        <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>" name="ID_Event" onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')" method="post"></i>
-                    </div>
+                <div class="heart-icon">
+                    <i class="fa fa-heart" id="heart-icon-<%= ev.ID_Event %>"
+                        name="ID_Event"
+                        onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')"
+                        method="post"></i>
+                </div>
                 <% } %>
                 <img src="<%= ev.Image_URL %>" alt="Event Image">
                 <h3><%= ev.Name %></h3>
-                <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time %></span></p>
+                <p><span>Thời gian: <%= ev.Start_time %> - <%= ev.End_time
+                        %></span></p>
                 <p><span>Địa điểm: <%= ev.Location %></span></p>
                 <p><span>Giá vào cổng: <%= ev.Price %></span></p>
                 <!-- <p><span>Chi tiết: <%= ev.Description %></span></p> -->
-                <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name %></span></p>
-                <button><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></button>
+                <p><span style="color: gray;">Tạo bởi: <%= ev.Creator_Name
+                        %></span></p>
+                <button><a href="/event/<%= ev.ID_Event %>">Xem chi
+                        tiết</a></button>
                 <!-- <p><a href="/event/<%= ev.ID_Event %>">Xem chi tiết</a></p> -->
                 <div class="max">
-                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants -  (ev.Participant_Count) %>/<%= ev.Max_Participants %></i></p>
+                    <p><i class="fa fa-fw fa-user icon"><%= ev.Max_Participants
+                            - (ev.Participant_Count) %>/<%= ev.Max_Participants
+                            %></i></p>
                 </div>
             </div>
-        <% }); %>
-        <% } else { %>
+            <% }); %>
+            <% } else { %>
             <% let eventTypeMessage; %>
             <% if (eventQuery === '1') { %>
-                <% eventTypeMessage = 'Âm Nhạc'; %>
+            <% eventTypeMessage = 'Âm Nhạc'; %>
             <% } else if (eventQuery === '3') { %>
-                <% eventTypeMessage = 'Chương Trình Trò Chuyện'; %>
+            <% eventTypeMessage = 'Chương Trình Trò Chuyện'; %>
             <% } else if (eventQuery === '2') { %>
-                <% eventTypeMessage = 'Hoạt Động Nhóm'; %>
+            <% eventTypeMessage = 'Hoạt Động Nhóm'; %>
             <% } else { %>
-                <% eventTypeMessage = 'Sự Kiện Khác'; %>
+            <% eventTypeMessage = 'Sự Kiện Khác'; %>
             <% } %>
-            <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho Sự Kiện Theo Loại: "<%= eventTypeMessage %>"</h2>
-            <div class="alert alert-success" style="color: red; text-align:center">
-                Không tìm thấy sự kiện nào cho loại sự kiện "<%= eventTypeMessage %>".
+            <h2 class="search-result-title">Kết Quả Tìm Kiếm Cho Sự Kiện Theo
+                Loại: "<%= eventTypeMessage %>"</h2>
+            <div class="alert alert-success"
+                style="color: red; text-align:center">
+                Không tìm thấy sự kiện nào cho loại sự kiện "<%=
+                eventTypeMessage %>".
             </div>
-        <% } %>
-    </div>
-    <script src="/js/main.js"></script>
+            <% } %>
+        </div>
+        <script src="/js/main.js"></script>
 
-    <footer>
-        <h6>Liên hệ chúng tôi</h6>
-        <i class="fa fa-fw fa-whatsapp"></i>
-        <p>1900 1090</p><br>
-        <i class="fa fa-fw fa-envelope"></i>
-        <p><a href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
-    </footer>
-</body>
+        <footer>
+            <h6>Liên hệ chúng tôi</h6>
+            <i class="fa fa-fw fa-whatsapp"></i>
+            <p>1900 1090</p><br>
+            <i class="fa fa-fw fa-envelope"></i>
+            <p><a
+                    href="mailto:hanhnguyen6118@gmail.com">hanhnguyen6118@gmail.com</a></p>
+        </footer>
+    </body>
 </html>
