@@ -4,7 +4,7 @@ const {getHome, login, register, logout, create, listevent, registerevent,
     getevent, edit, del, Searchevent, isAuthenticated, participants, sendEmail, searcheventbytype, Details} = require('../controllers/homeController');
 const session = require('express-session');
 const { route } = require('express/lib/application');
-const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove, listuser} = require('../controllers/admin')
+const { getapprovedEvents, getpendingEvents, ApproveEvent, listEvent, disapprove, getdisapprove, listuser, disapprove1} = require('../controllers/admin')
 
 //Khai báo route
 router.get('/', getHome);
@@ -38,10 +38,16 @@ router.get('/logout', logout);
 // })
 router.get('/create', isAuthenticated, (req, res) => {
 
-    res.render('create', { session: req.session });
+    res.render('create', { session: req.session, error_msg: req.query.error_msg });
 });
   
 router.post('/create', create );
+// router.post('/create', (req, res) => {
+//     res.render('create', {
+//         error_msg: req.flash('error_msg'),
+//         success_msg: req.flash('success_msg')
+//     });
+// });
 
 router.get('/listevent', listevent); // Sử dụng hàm listevent thay vì render trực tiếp
 
@@ -81,6 +87,16 @@ router.get('/searchbyType', searcheventbytype);
 
 router.get('/event/:ID_Event', Details);
 
+// Trong file route của bạn
+router.get('/checkLoginStatus', (req, res) => {
+    if (req.session && req.session.user) {
+        res.json({ isLoggedIn: true });
+    } else {
+        res.json({ isLoggedIn: false });
+    }
+});
+
+
 // ------------------ADMIN----------------
 router.get('/all_event', listEvent);
 router.get('/browse_event', (req, res) => {
@@ -90,6 +106,7 @@ router.get('/pending', getpendingEvents);
 router.get('/approved', getapprovedEvents);
 router.post('/approved/:ID_Event', ApproveEvent);
 router.post('/disapproved/:ID_Event', disapprove);
+router.post('/disapproved/:ID_Event', disapprove1);
 router.get('/disapproved', getdisapprove);
 router.get('/userList', listuser);
 

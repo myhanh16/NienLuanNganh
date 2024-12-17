@@ -80,9 +80,15 @@
         <li><a href="#about">About</a></li> -->
         </ul>
 
+        
+
         <div class="form-create">
             <form action="/create" method="post">
                 <fieldset>
+                    <% if (error_msg) { %>
+                        <p class="alert alert-success" style="color: red;"><%=
+                            error_msg%></p>
+                    <% } %>
                     <legend>Tạo sự kiện</legend>
 
                     <div class="input-user">

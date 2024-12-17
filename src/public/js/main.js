@@ -371,3 +371,6 @@ window.onclick = function(event) {
 function confirmApproval(name) {
     return confirm(`Bạn có chắc chắn muốn duyệt sự kiện ${name} không?`);
 }
+
+
+

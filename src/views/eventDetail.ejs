@@ -21,7 +21,7 @@
                     <img src="/img/logo.png" alt="Logo">
                 </a>
                 <div class="links">
-                    <a class="active" href="/homeadmin"><i
+                    <a class="" href="/homeadmin"><i
                             class="fa fa-fw fa-home"></i>Trang Chủ</a>
                     <a href="/browse_event" class><i
                             class="fa fa-fw fa-check-square"></i>Duyệt Sự
@@ -71,7 +71,7 @@
                     <img src="/img/logo.png" alt="Logo">
                 </a>
                 <div class="links">
-                    <a class="active" href="/"><i
+                    <a class="" href="/"><i
                             class="fa fa-fw fa-home"></i>Trang Chủ</a>
                     <a class href="/create"><i class="fa fa-fw fa-edit"></i>Tạo
                         Sự Kiện</a>
@@ -152,6 +152,35 @@
                     onclick="registerEvent('<%= ev.ID_Event  %>', '<%= ev.Name %>')">
                     <i class="fa fa-heart"></i> Đăng ký
                 </button>
+                <% } %>
+                <% if ((!session.user || session.user.admin == 1) && ev.status == 0) {%>
+                    <div class="btn btn-danger1">
+                        
+                        <form action="/approved/<%= ev.ID_Event %>" method="post"
+                            onsubmit="return confirmApproval('<%= ev.Name%>')">
+    
+                            <button type="submit"
+                                style="border: none; background: none; cursor: pointer;">
+                                <i class="fa fa-fw fa-check-square"
+                                    style="color: green; font-size: 50px;"></i>
+                            </button>
+                        </form>
+                        <a href="#" onclick="showModal('<%= ev.ID_Event %>')"><i
+                                class="fa fa-fw fa-close"
+                                style="color: red; font-size: 50px"></i></a>
+                    </div>
+
+                    <div id="disapproveModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <form id="disapproveForm"
+                                action="/disapproved/<%= ev.ID_Event %>" method="post">
+                                <label for="reason">Lý do không duyệt:</label>
+                                <input type="text" name="reason" id="reason" required>
+                                <button type="submit">Xác nhận</button>
+                            </form>
+                        </div>
+                    </div>
                 <% } %>
             </div>
         </div>

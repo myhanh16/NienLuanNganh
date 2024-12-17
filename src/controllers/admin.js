@@ -45,6 +45,14 @@ const disapprove = async(req, res) => {
     }
 }
 
+const disapprove1 = async(req, res) => {
+  try {
+      await disapproveEvent(req, res);
+    } catch (error) {
+      res.status(500).send('Lỗi khi tải sự kiện');
+    }
+}
+
 const getdisapprove = async(req, res) => {
   try {
       await getDisapprove(req, res);
@@ -68,5 +76,6 @@ module.exports = {
     listEvent,
     disapprove,
     getdisapprove,
-    listuser
+    listuser, 
+    disapprove1
 }

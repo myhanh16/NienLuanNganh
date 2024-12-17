@@ -150,6 +150,7 @@
     .navbar a {
         margin: 10px 0; /* Khoảng cách giữa các liên kết */
     }
+    
 }
 
 /* banner */
@@ -1057,4 +1058,20 @@ h4 {
     background-color: #0056b3;
     border-color: #0056b3;
 }
+
+.registered {
+    color: red;
+}
+
+
+.btn-danger1 {
+    display: block;
+    bottom: 5px;
+    /* left: 25px; */
+    font-size: 50px;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
 

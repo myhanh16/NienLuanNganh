@@ -113,39 +113,87 @@ const Logout = async (req, res) => {
 }
 
 //Hàm tạo sự kiện
-const Create = async (req, res) => {
+// const Create = async (req, res) => {
 
+//     if (req.session.user == null) {
+//         // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
+//         return res.redirect('/login');
+//     }
+
+    
+//     const userEmail = req.session.user.Email; 
+//     let { name, start, end, location, description, Image_URL, ID_type, price, max } = req.body;
+
+//     // Xử lý file upload
+//     const file = '/img/';
+//     console.log(Image_URL);
+//     Image_URL = file.concat(Image_URL);
+
+//   await con.query(
+//         'INSERT INTO `event`(`Name`, `Start_time`, `End_time`, `Location`, `Description`, `Image_URL`,`Email`, `ID_type`, `Price`, `status`, `Max_Participants`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)',
+//         [name, start, end, location, description, Image_URL, userEmail, ID_type, price, max],
+//         function(err, results) {
+//             if (err) {
+//                 console.error('Error executing query:', err);
+//                 return res.status(500).send('An error occurred');
+//             } else {
+//               req.flash('success_msg', 'Tạo sự kiện thành công');
+//               // res.redirect('/create')
+//                 res.redirect('/listevent');
+//                 // res.render('create', { session: req.session });
+               
+//             }
+//         }
+//     );
+// };
+const Create = async (req, res) => {
     if (req.session.user == null) {
-        // return res.render('create', { error: 'Vui lòng đăng nhập trước khi tạo.' }); 
         return res.redirect('/login');
     }
 
-    
-    const userEmail = req.session.user.Email; 
+    const userEmail = req.session.user.Email;
     let { name, start, end, location, description, Image_URL, ID_type, price, max } = req.body;
+
+    // Kiểm tra tính hợp lệ của thời gian
+    const startTime = new Date(start);
+    const endTime = new Date(end);
+    const currentTime = new Date();
+
+    if (isNaN(startTime) || isNaN(endTime)) {
+        // req.flash('error_msg', 'Thời gian không hợp lệ. Vui lòng nhập lại.');
+        return res.render('create', {session: req.session, error_msg: 'Thời gian không hợp lệ. Vui lòng nhập lại.'}  );
+    }
+
+    if (startTime >= endTime) {
+        // req.flash('error_msg', 'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.');
+        return res.render('create', {session: req.session, error_msg: 'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.'}  );
+    }
+
+    if (startTime < currentTime) {
+        // req.flash('error_msg', 'Thời gian bắt đầu phải ở tương lai.');
+        return res.render('create', {session: req.session, error_msg: 'Thời gian bắt đầu phải ở tương lai.'});
+    }
 
     // Xử lý file upload
     const file = '/img/';
-    console.log(Image_URL);
     Image_URL = file.concat(Image_URL);
 
-  await con.query(
-        'INSERT INTO `event`(`Name`, `Start_time`, `End_time`, `Location`, `Description`, `Image_URL`,`Email`, `ID_type`, `Price`, `status`, `Max_Participants`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)',
+    // Thực hiện truy vấn chèn dữ liệu
+    await con.query(
+        'INSERT INTO `event`(`Name`, `Start_time`, `End_time`, `Location`, `Description`, `Image_URL`, `Email`, `ID_type`, `Price`, `status`, `Max_Participants`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)',
         [name, start, end, location, description, Image_URL, userEmail, ID_type, price, max],
         function(err, results) {
             if (err) {
                 console.error('Error executing query:', err);
                 return res.status(500).send('An error occurred');
             } else {
-              req.flash('success_msg', 'Tạo sự kiện thành công');
-              // res.redirect('/create')
+                req.flash('success_msg', 'Tạo sự kiện thành công');
                 res.redirect('/listevent');
-                // res.render('create', { session: req.session });
-               
             }
         }
     );
 };
+
 
 //Hiển thị danh sách sự kiện của người dùng nào đó sau khi đăng nhập
 const ListEvent = async (req, res) => {
@@ -280,7 +328,7 @@ const RegisterEvent = async (req, res) => {
 
               // Kiểm tra xem sự kiện đã diễn ra hay chưa
               con.query(
-                  'SELECT Start_time, Max_Participants, Name, Location, Description FROM event WHERE ID_Event = ?',
+                  'SELECT Start_time, End_time, Max_Participants, Name, Location, Description FROM event WHERE ID_Event = ?',
                   [eventId],
                   (err, results) => {
                       if (err) {
@@ -344,6 +392,8 @@ const RegisterEvent = async (req, res) => {
                                                   return res.status(500).json({ success: false, message: 'Lỗi khi thêm người tham gia. Vui lòng thử lại sau.' });
                                               }
 
+                                              
+
                                               // Định dạng thời gian
                                             const formatDate = (date) => {
                                                 const d = new Date(date);
@@ -362,7 +412,7 @@ const RegisterEvent = async (req, res) => {
                                                   event: {
                                                       Name: event.Name,
                                                       Start_time: formattedStartTime,
-                                                      End_time: formattedStartTime,   
+                                                      End_time: formattedEndTime,   
                                                       Location: event.Location,
                                                       Description: event.Description
                                                   },
